@@ -1,6 +1,6 @@
 import { Repository } from "typeorm";
 
-import { AppDataSource } from "../../../data-source";
+import { AppDataSource } from "../../../shared/data-source";
 import { Task } from "../../../database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../../interfaces/tasks.interfaces";
 import { TasksRepositorie } from "../tasks.repository";

@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 import { NextFunction, Request, Response } from "express";
 
-import { AppDataSource } from "../../data-source";
+import { AppDataSource } from "../../shared/data-source";
 import { User } from "../../database/entities/users.entity";
 
 class UsersMiddleware {

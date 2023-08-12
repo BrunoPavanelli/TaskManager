@@ -5,11 +5,11 @@
    "main": "index.js",
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/server.ts",
-      "start": "ts-node src/server.ts",
+      "dev": "ts-node-dev --inspect --transpile-only --ignore-watch node_modules src/shared/server.ts",
+      "start": "ts-node src/shared/server.ts",
       "typeorm": "typeorm-ts-node-commonjs",
-      "makemigrations": "npm run typeorm migration:generate -- -d ./src/data-source",
-      "migrate": "npm run typeorm migration:run -- -d ./src/data-source"
+      "makemigrations": "npm run typeorm migration:generate -- -d ./src/shared/data-source",
+      "migrate": "npm run typeorm migration:run -- -d ./src/shared/data-source"
    },
    "keywords": [],
    "author": "",

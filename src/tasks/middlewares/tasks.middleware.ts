@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Repository } from "typeorm";
 
-import { AppDataSource } from "../../data-source";
+import { AppDataSource } from "../../shared/data-source";
 import { Task } from "../../database/entities/tasks.entity";
 import { TaskDeadline } from "../../database/entities/tasksDeadline.entity";
 
