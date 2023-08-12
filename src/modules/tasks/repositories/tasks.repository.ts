@@ -1,4 +1,4 @@
-import { Task } from "../../shared/database/entities/tasks.entity";
+import { Task } from "../../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../interfaces/tasks.interfaces";
 
 abstract class TasksRepositorie {

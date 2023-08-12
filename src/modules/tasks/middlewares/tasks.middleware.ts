@@ -1,9 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Repository } from "typeorm";
 
-import { AppDataSource } from "../../shared/data-source";
-import { Task } from "../../shared/database/entities/tasks.entity";
-import { TaskDeadline } from "../../shared/database/entities/tasksDeadline.entity";
+import { AppDataSource } from "../../../shared/data-source";
+import { Task } from "../../../shared/database/entities/tasks.entity";
+import { TaskDeadline } from "../../../shared/database/entities/tasksDeadline.entity";
 
 class TasksMiddleware {
     private repository: Repository<Task> = AppDataSource.getRepository(Task);
