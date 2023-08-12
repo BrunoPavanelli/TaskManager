@@ -1,4 +1,4 @@
-import { Permission } from "../../database/entities/permissions.entity";
+import { Permission } from "../../shared/database/entities/permissions.entity";
 import { TPermissionRequest, TPermissionUpdate } from "../interfaces/permissions.interfaces";
 import { PermissionsRepositorie } from "../repositories/permissions.repository";
 import { permissionsRepositorie } from "../repositories/typeorm/typeorm.permissions.repository";

@@ -1,10 +1,10 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../shared/data-source";
-import { Task } from "../../../database/entities/tasks.entity";
+import { Task } from "../../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../../interfaces/tasks.interfaces";
 import { TasksRepositorie } from "../tasks.repository";
-import { TaskDeadline } from "../../../database/entities/tasksDeadline.entity";
+import { TaskDeadline } from "../../../shared/database/entities/tasksDeadline.entity";
 
 class TypeOrmTasksRepositories implements TasksRepositorie {
     private repository: Repository<Task> = AppDataSource.getRepository(Task);

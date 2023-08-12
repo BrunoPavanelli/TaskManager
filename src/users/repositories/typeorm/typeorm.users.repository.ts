@@ -2,7 +2,7 @@ import { Repository } from "typeorm";
 
 import { UsersRepositorie } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
-import { User } from "../../../database/entities/users.entity";
+import { User } from "../../../shared/database/entities/users.entity";
 import { AppDataSource } from "../../../shared/data-source";
 
 

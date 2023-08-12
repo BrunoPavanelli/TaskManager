@@ -1,4 +1,4 @@
-import { Role } from "../../database/entities/roles.entity";
+import { Role } from "../../shared/database/entities/roles.entity";
 import { TRoleRequest, TRoleUpdate } from "../interfaces/roles.interfaces";
 
 abstract class rolensRepositorie {

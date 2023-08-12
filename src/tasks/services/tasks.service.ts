@@ -1,4 +1,4 @@
-import { Task } from "../../database/entities/tasks.entity";
+import { Task } from "../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../interfaces/tasks.interfaces";
 import { TasksRepositorie } from "../repositories/tasks.repository";
 import { tasksRepositorie } from "../repositories/typeorm/typeorm.tasks.repository";

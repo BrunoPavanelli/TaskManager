@@ -1,4 +1,4 @@
-import { User } from "../../database/entities/users.entity";
+import { User } from "../../shared/database/entities/users.entity";
 import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
 
 abstract class UsersRepositorie {
