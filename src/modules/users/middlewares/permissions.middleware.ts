@@ -1,8 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { Repository } from "typeorm";
 
-import { AppDataSource } from "../../shared/data-source";
-import { Permission } from "../../shared/database/entities/permissions.entity";
+import { AppDataSource } from "../../../shared/data-source";
+import { Permission } from "../../../shared/database/entities/permissions.entity";
 
 class PermissionsMiddleware {
     private repository: Repository<Permission> = AppDataSource.getRepository(Permission);

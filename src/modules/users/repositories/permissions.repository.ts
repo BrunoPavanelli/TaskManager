@@ -1,4 +1,4 @@
-import { Permission } from "../../shared/database/entities/permissions.entity";
+import { Permission } from "../../../shared/database/entities/permissions.entity";
 import { TPermissionRequest, TPermissionUpdate } from "../interfaces/permissions.interfaces";
 
 abstract class PermissionsRepositorie {

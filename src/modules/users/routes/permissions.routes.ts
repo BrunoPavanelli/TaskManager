@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { sharedMiddlewares } from "../../shared/middlewares/shared.middleware";
+import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
 import { permissionsController } from "../controllers/permissions.controller";
 import { schemas } from "../schemas/permissions.schemas";
 import { permissionsMiddleware } from "../middlewares/permissions.middleware";
