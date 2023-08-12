@@ -2,9 +2,8 @@ import { Repository } from "typeorm";
 
 import { UsersRepositorie } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
-import { User } from "../../../shared/database/entities/users.entity";
-import { AppDataSource } from "../../../shared/data-source";
-
+import { AppDataSource } from "../../../../shared/data-source";
+import { User } from "../../../../shared/database/entities/users.entity";
 
 class TypeOrmUsersRepositories implements UsersRepositorie {
     private repository: Repository<User> = AppDataSource.getRepository(User);
