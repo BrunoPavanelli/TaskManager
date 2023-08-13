@@ -1,5 +1,6 @@
-import express, { json } from 'express';
 import "reflect-metadata"
+import "./containers"
+import express, { json } from 'express';
 import "express-async-errors"
 
 import { usersRoute } from '../modules/users/routes/users.routes';

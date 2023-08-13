@@ -1,10 +1,12 @@
 import { Repository } from "typeorm";
+import { injectable } from "tsyringe";
 
 import { UsersRepository } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
 import { AppDataSource } from "../../../../shared/data-source";
 import { User } from "../../../../shared/database/entities/users.entity";
 
+@injectable()
 class TypeOrmUsersRepository implements UsersRepository {
     private repository: Repository<User> = AppDataSource.getRepository(User);
 
@@ -17,6 +19,14 @@ class TypeOrmUsersRepository implements UsersRepository {
 
     async findAll(): Promise<User[]> {
         return await this.repository.find();
+    }
+
+    async findByProperty(userProperty: string, propertyValue: string): Promise<User | null> {
+        const user: User | null = await this.repository.findOneBy({
+            [userProperty]: propertyValue
+        });
+
+        return user;
     }
 
     async updateById(user: User, userData: TUserUpdate): Promise<User> {
@@ -40,5 +50,4 @@ class TypeOrmUsersRepository implements UsersRepository {
 
 }
 
-const usersRepository = new TypeOrmUsersRepository();
-export { usersRepository };
+export { TypeOrmUsersRepository };
