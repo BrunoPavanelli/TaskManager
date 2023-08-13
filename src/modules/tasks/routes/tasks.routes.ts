@@ -21,11 +21,6 @@ tasksRoute.get(
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res) => tasksController.findById(req, res)
 );
-tasksRoute.get(
-    "/name/:name", 
-    (req, res, next) => tasksMiddleware.ensureTasksNameExists(req, res, next),
-    (req, res) => tasksController.findByName(req, res)
-);
 tasksRoute.patch(
     "/:taskId",
     sharedMiddlewares.validateSchema(schemas.update),

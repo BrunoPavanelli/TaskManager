@@ -24,12 +24,6 @@ class UsersService {
         return schemas.response.parse(user);
     }
 
-    async findByName(userName: string): Promise<TUserResponse> {
-        const user = await this.usersRepository.findByName(userName)
-
-        return schemas.response.parse(user);
-    }
-
     async updateById(userId: string, userData: TUserUpdate): Promise<TUserResponse> {
         const user = await this.usersRepository.updateById(userId, userData);
 

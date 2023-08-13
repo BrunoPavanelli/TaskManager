@@ -24,13 +24,6 @@ class PermissionsContoller {
         return res.json(permission);
     }
 
-    async findByName(req: Request, res: Response): Promise<Response> {
-        const { name } = req.params
-        const permission = await this.permissionsService.findByName(name)
-
-        return res.json(permission);
-    }
-
     async updateById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
         const permissionData = req.body

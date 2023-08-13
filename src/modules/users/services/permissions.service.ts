@@ -20,10 +20,6 @@ class PermissionsService {
         return permission!
     }
 
-    async findByName(permissionName: string): Promise<Permission> {
-        return await this.permissionsRepository.findByName(permissionName);
-    }
-
     async updateById(permissionId: string, permissionData: TPermissionUpdate): Promise<Permission> {
         return await this.permissionsRepository.updateById(permissionId, permissionData);
     }

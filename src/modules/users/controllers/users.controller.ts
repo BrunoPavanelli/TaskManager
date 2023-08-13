@@ -24,13 +24,6 @@ class UsersContoller {
         return res.json(user);
     }
 
-    async findByName(req: Request, res: Response): Promise<Response> {
-        const { name } = req.params
-        const user = await this.usersService.findByName(name)
-
-        return res.json(user);
-    }
-
     async updateById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params
         const userData = req.body

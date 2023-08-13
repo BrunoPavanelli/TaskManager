@@ -20,11 +20,6 @@ permissionsRoute.get(
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.findById(req, res)
 );
-permissionsRoute.get(
-    "/name/:name", 
-    (req, res, next) => permissionsMiddleware.ensurePermissionsNameExists(req, res, next),
-    (req, res) => permissionsController.findByName(req, res)
-);
 permissionsRoute.patch(
     "/:id",
     sharedMiddlewares.validateSchema(schemas.update),

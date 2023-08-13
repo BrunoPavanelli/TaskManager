@@ -5,7 +5,6 @@ abstract class TasksRepository {
     abstract create(taskData: TTaskRequest): Promise<Task>;
     abstract findAll(): Promise<Task[]>;
     abstract findById(taskId: string): Promise<Task | null>;
-    abstract findByName(taskName: string): Promise<Task>;
     abstract updateById(taskId: string, taskData: TTaskUpdate): Promise<Task>;
     abstract deleteById(taskId: string): Promise<void>;
     abstract createDeadline(taskId: string, taskDeadlineData: TTaskDealineRequest): Promise<Task>;

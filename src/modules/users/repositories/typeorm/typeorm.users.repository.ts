@@ -27,14 +27,6 @@ class TypeOrmUsersRepository implements UsersRepository {
         return user!
     }
 
-    async findByName(userName: string): Promise<User> {
-        const user: User | null = await this.repository.findOneBy({
-            name: userName
-        })
-        console.log(user)
-        return user!
-    }
-
     async updateById(userId: string, userData: TUserUpdate): Promise<User> {
         const user: User = await this.findById(userId)
         const newUserData = {

@@ -24,13 +24,6 @@ class TasksContoller {
         return res.json(task);
     }
 
-    async findByName(req: Request, res: Response): Promise<Response> {
-        const { name } = req.params
-        const task = await this.tasksService.findByName(name)
-
-        return res.json(task);
-    }
-
     async updateById(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params
         const taskData = req.body

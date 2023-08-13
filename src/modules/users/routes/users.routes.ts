@@ -21,11 +21,6 @@ usersRoute.get(
     (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
     (req, res) => usersController.findById(req, res)
 );
-usersRoute.get(
-    "/name/:name", 
-    (req, res, next) => usersMiddleware.ensureUsersNameExists(req, res, next),
-    (req, res) => usersController.findByName(req, res)
-);
 usersRoute.patch(
     "/:id",
     sharedMiddlewares.validateSchema(schemas.update),

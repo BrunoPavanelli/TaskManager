@@ -20,10 +20,6 @@ class TasksService {
         return task!
     }
 
-    async findByName(taskName: string): Promise<Task> {
-        return await this.tasksRepository.findByName(taskName);
-    }
-
     async updateById(taskId: string, taskData: TTaskUpdate): Promise<Task> {
         return await this.tasksRepository.updateById(taskId, taskData);
     }

@@ -20,17 +20,6 @@ class TasksMiddleware {
         return next();
     }
 
-    async ensureTasksNameExists(req: Request, res: Response, next: NextFunction) {
-        const { name } = req.params
-        const task: Task | null = await this.repository.findOneBy({
-            name: name
-        });
-
-        if (!task) return res.status(404).json({"message": "Task not Found!"})
-
-        return next();
-    }
-
     async ensureTaskDontHaveAnDeadLine(req: Request, res: Response, next: NextFunction) {
         const { taskId } = req.params
         const task: Task | null = await this.repository.findOne({

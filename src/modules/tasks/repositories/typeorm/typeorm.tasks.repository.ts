@@ -29,14 +29,6 @@ class TypeOrmTasksRepository implements TasksRepository {
         return task!
     }
 
-    async findByName(taskName: string): Promise<Task> {
-        const task: Task | null = await this.repository.findOneBy({
-            name: taskName
-        })
-        console.log(task)
-        return task!
-    }
-
     async updateById(taskId: string, taskData: TTaskUpdate): Promise<Task> {
         const task: Task = await this.findById(taskId)
         const newtaskData = {

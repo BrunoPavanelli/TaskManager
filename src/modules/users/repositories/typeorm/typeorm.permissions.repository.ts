@@ -27,14 +27,6 @@ class TypeOrmPermissionsRepository implements PermissionsRepository {
         return permission!
     }
 
-    async findByName(permissionName: string): Promise<Permission> {
-        const permission: Permission | null = await this.repository.findOneBy({
-            name: permissionName
-        })
-        console.log(permission)
-        return permission!
-    }
-
     async updateById(permissionId: string, permissionData: TPermissionUpdate): Promise<Permission> {
         const permission: Permission = await this.findById(permissionId)
         const newpermissionData = {

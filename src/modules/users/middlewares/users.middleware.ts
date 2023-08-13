@@ -17,17 +17,6 @@ class UsersMiddleware {
 
         return next();
     }
-
-    async ensureUsersNameExists(req: Request, res: Response, next: NextFunction) {
-        const { name } = req.params
-        const user: User | null = await this.repository.findOneBy({
-            name: name
-        });
-
-        if (!user) return res.status(404).json({"message": "User not Found!"})
-
-        return next();
-    }
 }
 
 const usersMiddleware = new UsersMiddleware();
