@@ -19,16 +19,15 @@ class TypeOrmPermissionsRepository implements PermissionsRepository {
         return await this.repository.find();
     }
 
-    async findById(permissionId: string): Promise<Permission> {
+    async findByProperty(permissionProperty: string, propertyValue: string): Promise<Permission | null> {
         const permission: Permission | null = await this.repository.findOneBy({
-            id: permissionId
-        })
+            [permissionProperty]: propertyValue
+        });
 
-        return permission!
+        return permission;
     }
 
-    async updateById(permissionId: string, permissionData: TPermissionUpdate): Promise<Permission> {
-        const permission: Permission = await this.findById(permissionId)
+    async updateById(permission: Permission, permissionData: TPermissionUpdate): Promise<Permission> {
         const newpermissionData = {
             ...permission,
             ...permissionData
@@ -39,14 +38,13 @@ class TypeOrmPermissionsRepository implements PermissionsRepository {
         return permissionPatched;
     }
 
-    async deleteById(permissionId: string): Promise<void> {
+    async deleteById(permission: Permission): Promise<void> {
         await this.repository.delete({
-            id: permissionId
+            id: permission.id
         });
 
         return
     }
 }
 
-const permissionsRepository = new TypeOrmPermissionsRepository()
-export { permissionsRepository }
+export { TypeOrmPermissionsRepository }

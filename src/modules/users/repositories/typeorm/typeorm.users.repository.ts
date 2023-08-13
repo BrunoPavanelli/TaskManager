@@ -34,7 +34,7 @@ class TypeOrmUsersRepository implements UsersRepository {
             ...user,
             ...userData
         }
-
+ 
         const userPatched = await this.repository.save(newUserData);
 
         return userPatched;
