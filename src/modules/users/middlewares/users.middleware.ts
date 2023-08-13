@@ -15,6 +15,7 @@ class UsersMiddleware {
 
         if (!user) return res.status(404).json({"message": "User not Found!"})
 
+        req.body.user = user;
         return next();
     }
 }

@@ -18,23 +18,23 @@ class UsersContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { id }= req.params
-        const user = await this.usersService.findById(id)
+        const { user } = req.body
+        const userResponse = await this.usersService.findById(user)
 
-        return res.json(user);
+        return res.json(userResponse);
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params
+        const { user } = req.body
         const userData = req.body
-        const user = await this.usersService.updateById(id, userData);
+        const userResponse = await this.usersService.updateById(user, userData);
 
-        return res.json(user)
+        return res.json(userResponse)
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { id } = req.params
-        await this.usersService.deleteById(id);
+        const { user } = req.body
+        await this.usersService.deleteById(user);
 
         return res.sendStatus(204);
     }

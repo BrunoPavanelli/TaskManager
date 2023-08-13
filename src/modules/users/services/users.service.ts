@@ -1,3 +1,4 @@
+import { User } from "../../../shared/database/entities/users.entity";
 import { TUserRequest, TUserResponse, TUserUpdate } from "../interfaces/users.interfaces";
 import { usersRepository } from "../repositories/typeorm/typeorm.users.repository";
 import { UsersRepository } from "../repositories/users.repository";
@@ -18,20 +19,18 @@ class UsersService {
         return users.map(user => schemas.response.parse(user));
     }
 
-    async findById(userId: string): Promise<TUserResponse> {
-        const user = await this.usersRepository.findById(userId)
-
+    async findById(user: User): Promise<TUserResponse> {
         return schemas.response.parse(user);
     }
 
-    async updateById(userId: string, userData: TUserUpdate): Promise<TUserResponse> {
-        const user = await this.usersRepository.updateById(userId, userData);
+    async updateById(user: User, userData: TUserUpdate): Promise<TUserResponse> {
+        const userPatched = await this.usersRepository.updateById(user, userData);
 
-        return schemas.response.parse(user);
+        return schemas.response.parse(userPatched);
     }
 
-    async deleteById(userId: string): Promise<void> {
-        await this.usersRepository.deleteById(userId);
+    async deleteById(user: User): Promise<void> {
+        await this.usersRepository.deleteById(user);
     }
 
 }

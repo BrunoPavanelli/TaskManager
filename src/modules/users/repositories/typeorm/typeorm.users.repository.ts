@@ -19,16 +19,7 @@ class TypeOrmUsersRepository implements UsersRepository {
         return await this.repository.find();
     }
 
-    async findById(userId: string): Promise<User> {
-        const user: User | null = await this.repository.findOneBy({
-            id: userId
-        })
-
-        return user!
-    }
-
-    async updateById(userId: string, userData: TUserUpdate): Promise<User> {
-        const user: User = await this.findById(userId)
+    async updateById(user: User, userData: TUserUpdate): Promise<User> {
         const newUserData = {
             ...user,
             ...userData
@@ -39,9 +30,9 @@ class TypeOrmUsersRepository implements UsersRepository {
         return userPatched;
     }
 
-    async deleteById(userId: string): Promise<void> {
+    async deleteById(user: User): Promise<void> {
         await this.repository.delete({
-            id: userId
+            id: user.id
         });
 
         return
