@@ -1,7 +1,7 @@
 import { Task } from "../../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../interfaces/tasks.interfaces";
 
-abstract class TasksRepositorie {
+abstract class TasksRepository {
     abstract create(taskData: TTaskRequest): Promise<Task>;
     abstract findAll(): Promise<Task[]>;
     abstract findById(taskId: string): Promise<Task | null>;
@@ -13,4 +13,4 @@ abstract class TasksRepositorie {
     abstract deleteDeadlineById(taskDeadlineId: string): Promise<void>;        
 }
 
-export { TasksRepositorie }
+export { TasksRepository }

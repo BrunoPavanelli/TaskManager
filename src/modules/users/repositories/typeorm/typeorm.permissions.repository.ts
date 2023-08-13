@@ -3,9 +3,9 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../../../../shared/data-source";
 import { Permission } from "../../../../shared/database/entities/permissions.entity";
 import { TPermissionRequest, TPermissionUpdate } from "../../interfaces/permissions.interfaces";
-import { PermissionsRepositorie } from "../permissions.repository";
+import { PermissionsRepository } from "../permissions.repository";
 
-class TypeOrmPermissionsRepositories implements PermissionsRepositorie {
+class TypeOrmPermissionsRepository implements PermissionsRepository {
     private repository: Repository<Permission> = AppDataSource.getRepository(Permission);
 
     async create(permissionData: TPermissionRequest): Promise<Permission> {
@@ -56,5 +56,5 @@ class TypeOrmPermissionsRepositories implements PermissionsRepositorie {
     }
 }
 
-const permissionsRepositorie = new TypeOrmPermissionsRepositories()
-export { permissionsRepositorie }
+const permissionsRepository = new TypeOrmPermissionsRepository()
+export { permissionsRepository }

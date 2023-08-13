@@ -3,10 +3,10 @@ import { Repository } from "typeorm";
 import { AppDataSource } from "../../../../shared/data-source";
 import { Task } from "../../../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../../interfaces/tasks.interfaces";
-import { TasksRepositorie } from "../tasks.repository";
+import { TasksRepository } from "../tasks.repository";
 import { TaskDeadline } from "../../../../shared/database/entities/tasksDeadline.entity";
 
-class TypeOrmTasksRepositories implements TasksRepositorie {
+class TypeOrmTasksRepository implements TasksRepository {
     private repository: Repository<Task> = AppDataSource.getRepository(Task);
     private deadlineRepository: Repository<TaskDeadline> = AppDataSource.getRepository(TaskDeadline);
 
@@ -105,5 +105,5 @@ class TypeOrmTasksRepositories implements TasksRepositorie {
     }
 }
 
-const tasksRepositorie = new TypeOrmTasksRepositories()
-export { tasksRepositorie }
+const tasksRepository = new TypeOrmTasksRepository()
+export { tasksRepository }

@@ -1,11 +1,11 @@
 import { Repository } from "typeorm";
 
-import { UsersRepositorie } from "../users.repository";
+import { UsersRepository } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
 import { AppDataSource } from "../../../../shared/data-source";
 import { User } from "../../../../shared/database/entities/users.entity";
 
-class TypeOrmUsersRepositories implements UsersRepositorie {
+class TypeOrmUsersRepository implements UsersRepository {
     private repository: Repository<User> = AppDataSource.getRepository(User);
 
     async create(userData: TUserRequest): Promise<User> {
@@ -57,5 +57,5 @@ class TypeOrmUsersRepositories implements UsersRepositorie {
 
 }
 
-const usersRepositorie = new TypeOrmUsersRepositories();
-export { usersRepositorie };
+const usersRepository = new TypeOrmUsersRepository();
+export { usersRepository };

@@ -2,7 +2,7 @@
 import { User } from "../../../shared/database/entities/users.entity";
 import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
 
-abstract class UsersRepositorie {
+abstract class UsersRepository {
     abstract create(userData: TUserRequest): Promise<User>;
     abstract findAll(): Promise<User[]>;
     abstract findById(userId: string): Promise<User | null>;
@@ -11,4 +11,4 @@ abstract class UsersRepositorie {
     abstract deleteById(userId: string): Promise<void>;
 }
 
-export { UsersRepositorie }
+export { UsersRepository }

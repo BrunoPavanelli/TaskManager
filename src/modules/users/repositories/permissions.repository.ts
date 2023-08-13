@@ -1,7 +1,7 @@
 import { Permission } from "../../../shared/database/entities/permissions.entity";
 import { TPermissionRequest, TPermissionUpdate } from "../interfaces/permissions.interfaces";
 
-abstract class PermissionsRepositorie {
+abstract class PermissionsRepository {
     abstract create(permissionData: TPermissionRequest): Promise<Permission>;
     abstract findAll(): Promise<Permission[]>;
     abstract findById(permissionId: string): Promise<Permission | null>;
@@ -10,4 +10,4 @@ abstract class PermissionsRepositorie {
     abstract deleteById(permissionId: string): Promise<void>;    
 }
 
-export { PermissionsRepositorie }
+export { PermissionsRepository }

@@ -1,10 +1,10 @@
 import { TUserRequest, TUserResponse, TUserUpdate } from "../interfaces/users.interfaces";
-import { usersRepositorie } from "../repositories/typeorm/typeorm.users.repository";
-import { UsersRepositorie } from "../repositories/users.repository";
+import { usersRepository } from "../repositories/typeorm/typeorm.users.repository";
+import { UsersRepository } from "../repositories/users.repository";
 import { schemas } from "../schemas/users.schemas";
 
 class UsersService {
-    constructor(private usersRepository: UsersRepositorie) {}
+    constructor(private usersRepository: UsersRepository) {}
 
     async create(userData: TUserRequest): Promise<TUserResponse> {
         const user = await this.usersRepository.create(userData);
@@ -42,5 +42,5 @@ class UsersService {
 
 }
 
-const usersServices = new UsersService(usersRepositorie);
+const usersServices = new UsersService(usersRepository);
 export { usersServices, UsersService };
