@@ -17,17 +17,7 @@ class PermissionsMiddleware {
 
         return next();
     }
-
-    async ensurePermissionsNameExists(req: Request, res: Response, next: NextFunction) {
-        const { name } = req.params
-        const permission: Permission | null = await this.repository.findOneBy({
-            name: name
-        });
-
-        if (!permission) return res.status(404).json({"message": "permission not Found!"})
-
-        return next();
-    }
+    
 }
 
 const permissionsMiddleware = new PermissionsMiddleware();
