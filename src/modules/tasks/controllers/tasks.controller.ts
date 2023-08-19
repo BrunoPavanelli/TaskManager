@@ -29,11 +29,12 @@ class TasksContoller {
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { taskId } = req.params
-        const taskData = req.body
-        const task = await this.tasksRepository.updateById(taskId, taskData);
+        const { task } = res.locals;
+        const taskData = req.body;
 
-        return res.json(task)
+        const taskPatched = await this.tasksRepository.updateById(task, taskData);
+
+        return res.json(taskPatched)
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
@@ -52,20 +53,22 @@ class DeadLinesController {
     ) {}
 
     async createDeadline(req: Request, res: Response): Promise<Response> {
-        const { taskId } = req.params;
+        const { task } = res.locals;
         const taskDeadlineData = req.body;
-        const task = await this.tasksRepository.createDeadline(taskId, taskDeadlineData);
 
-        return res.status(201).json(task);
+        const taskWithDeadline = await this.tasksRepository.createDeadline(task, taskDeadlineData);
+
+        return res.status(201).json(taskWithDeadline);
     }    
 
     async updateDeadlineById(req: Request, res: Response): Promise<Response> {
-        const { taskId } = req.params;
-        const { deadlineId } = req.params;
+        const { task } = res.locals;
+        const { deadline } = res.locals;
         const taskDeadlineData = req.body;
-        const task = await this.tasksRepository.updateDeadlineById(taskId, deadlineId, taskDeadlineData);
 
-        return res.json(task);
+        const taskWithDeadline = await this.tasksRepository.updateDeadlineById(task, deadline, taskDeadlineData);
+
+        return res.json(taskWithDeadline);
     }
 
     async deleteDeadlineById(req: Request, res: Response): Promise<Response> {

@@ -23,21 +23,20 @@ class TypeOrmTasksRepository implements TasksRepository {
         return await this.repository.find();
     }
 
-    async findById(taskId: string): Promise<Task> {
+    async findByProperty(taskProperty: string, propertyValue: string): Promise<Task | null> {
         const task: Task | null = await this.repository.findOneBy({
-            id: taskId
+            [taskProperty]: propertyValue
         })
 
-        return task!
+        return task
     } 
 
-    async updateById(taskId: string, taskData: TTaskUpdate): Promise<Task> {
-        const task: Task = await this.findById(taskId)
+    async updateById(task: Task, taskData: TTaskUpdate): Promise<Task> {
         const newtaskData = {
             ...task,
             ...taskData
         }
-
+        
         const taskPatched = await this.repository.save(newtaskData);
 
         return taskPatched;
@@ -51,9 +50,7 @@ class TypeOrmTasksRepository implements TasksRepository {
         return
     }
 
-    async createDeadline(taskId: string, taskDeadlineData: TTaskDealineRequest): Promise<Task> {
-        const task = await this.findById(taskId)
-
+    async createDeadline(task: Task, taskDeadlineData: TTaskDealineRequest): Promise<Task> {
         const deadline = this.deadlineRepository.create({
             ...taskDeadlineData,
             task: task
@@ -62,7 +59,7 @@ class TypeOrmTasksRepository implements TasksRepository {
 
         const taskWithDealine = await this.repository.findOne({
             where: {
-                id: taskId
+                id: task.id
             },
             relations: {
                 taskDeadline: true
@@ -72,18 +69,16 @@ class TypeOrmTasksRepository implements TasksRepository {
         return taskWithDealine!
     }
 
-    async updateDeadlineById(taskId: string, taskDeadlineId: string, taskDeadlineData: TTaskDealineUpdate): Promise<Task> {
-        const deadline = await this.deadlineRepository.findOneBy({id: taskDeadlineId})
-
+    async updateDeadlineById(task: Task, taskDeadline: TaskDeadline, taskDeadlineData: TTaskDealineUpdate): Promise<Task> {
         const newDeadline = this.deadlineRepository.create({
-            ...deadline!,
+            ...taskDeadline!,
             ...taskDeadlineData
         })
         await this.deadlineRepository.save(newDeadline);
 
         const taskWithDealine = await this.repository.findOne({
             where: {
-                id: taskId
+                id: task.id
             },
             relations: {
                 taskDeadline: true
