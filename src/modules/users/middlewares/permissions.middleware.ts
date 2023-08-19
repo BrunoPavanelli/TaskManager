@@ -15,7 +15,7 @@ class PermissionsMiddleware {
 
         if (!permission) return res.status(404).json({"message": "permission not Found!"})
 
-        res.locals.permission = permission;
+        req.body.permission = permission;
         return next();
     }
     
