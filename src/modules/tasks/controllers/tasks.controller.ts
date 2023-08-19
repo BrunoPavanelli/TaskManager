@@ -1,25 +1,30 @@
 import { Request, Response } from "express";
-import { TasksService, tasksService } from "../services/tasks.service";
+import { container, inject, injectable } from "tsyringe";
+import { TasksRepository } from "../repositories/tasks.repository";
 
+@injectable()
 class TasksContoller {
-    constructor(private tasksService: TasksService) {}
+    constructor(
+        @inject("TasksRepository")
+        private tasksRepository: TasksRepository
+    ) {}
 
     async create(req: Request, res: Response): Promise<Response> {
         const taskData = req.body
-        const task = await this.tasksService.create(taskData);
+        const task = await this.tasksRepository.create(taskData);
 
         return res.status(201).json(task);
     }
 
     async findAll(req: Request, res: Response): Promise<Response> {
-        const tasks = await this.tasksService.findAll();
+        const tasks = await this.tasksRepository.findAll();
 
         return res.json(tasks);
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params
-        const task = await this.tasksService.findById(taskId)
+        const task = await this.tasksRepository.findById(taskId)
 
         return res.json(task);
     }
@@ -27,14 +32,14 @@ class TasksContoller {
     async updateById(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params
         const taskData = req.body
-        const task = await this.tasksService.updateById(taskId, taskData);
+        const task = await this.tasksRepository.updateById(taskId, taskData);
 
         return res.json(task)
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params
-        await this.tasksService.deleteById(taskId);
+        await this.tasksRepository.deleteById(taskId);
 
         return res.sendStatus(204);
     }
@@ -42,7 +47,7 @@ class TasksContoller {
     async createDeadline(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params;
         const taskDeadlineData = req.body;
-        const task = await this.tasksService.createDeadline(taskId, taskDeadlineData);
+        const task = await this.tasksRepository.createDeadline(taskId, taskDeadlineData);
 
         return res.status(201).json(task);
     }    
@@ -51,19 +56,19 @@ class TasksContoller {
         const { taskId } = req.params;
         const { deadlineId } = req.params;
         const taskDeadlineData = req.body;
-        const task = await this.tasksService.updateDeadlineById(taskId, deadlineId, taskDeadlineData);
+        const task = await this.tasksRepository.updateDeadlineById(taskId, deadlineId, taskDeadlineData);
 
         return res.json(task);
     }
 
     async deleteDeadlineById(req: Request, res: Response): Promise<Response> {
         const { deadlineId } = req.params;
-        await this.tasksService.deleteDeadlineById(deadlineId);
+        await this.tasksRepository.deleteDeadlineById(deadlineId);
 
         return res.sendStatus(204);
     }
 
 }
 
-const tasksController = new TasksContoller(tasksService);
+const tasksController = container.resolve(TasksContoller);
 export { tasksController };

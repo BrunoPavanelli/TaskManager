@@ -5,7 +5,9 @@ import { Task } from "../../../../shared/database/entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../../interfaces/tasks.interfaces";
 import { TasksRepository } from "../tasks.repository";
 import { TaskDeadline } from "../../../../shared/database/entities/tasksDeadline.entity";
+import { injectable } from "tsyringe";
 
+@injectable()
 class TypeOrmTasksRepository implements TasksRepository {
     private repository: Repository<Task> = AppDataSource.getRepository(Task);
     private deadlineRepository: Repository<TaskDeadline> = AppDataSource.getRepository(TaskDeadline);
@@ -27,7 +29,7 @@ class TypeOrmTasksRepository implements TasksRepository {
         })
 
         return task!
-    }
+    } 
 
     async updateById(taskId: string, taskData: TTaskUpdate): Promise<Task> {
         const task: Task = await this.findById(taskId)
@@ -97,5 +99,4 @@ class TypeOrmTasksRepository implements TasksRepository {
     }
 }
 
-const tasksRepository = new TypeOrmTasksRepository()
-export { tasksRepository }
+export { TypeOrmTasksRepository }
