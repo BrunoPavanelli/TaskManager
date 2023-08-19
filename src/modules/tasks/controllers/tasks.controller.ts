@@ -43,6 +43,14 @@ class TasksContoller {
 
         return res.sendStatus(204);
     }
+}
+
+@injectable()
+class DeadLinesController {
+    constructor(
+        @inject("TasksRepository")
+        private tasksRepository: TasksRepository
+    ) {}
 
     async createDeadline(req: Request, res: Response): Promise<Response> {
         const { taskId } = req.params;
@@ -71,4 +79,5 @@ class TasksContoller {
 }
 
 const tasksController = container.resolve(TasksContoller);
-export { tasksController };
+const deadlinesController = container.resolve(DeadLinesController);
+export { tasksController, deadlinesController };

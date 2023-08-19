@@ -38,10 +38,10 @@ class TasksMiddleware {
 
     async ensureTasksDeadlineIdExists(req: Request, res: Response, next: NextFunction) {
         const { deadlineId } = req.params
-        const deadline: Task | null = await this.repository.findOneBy({
+        const deadline: TaskDeadline | null = await this.deadlineRepository.findOneBy({
             id: deadlineId
         });
-
+        console.log(deadline)
         if (!deadline) return res.status(404).json({"message": "Task Deadline not Found!"})
 
         return next();

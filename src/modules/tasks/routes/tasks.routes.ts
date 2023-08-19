@@ -1,7 +1,7 @@
 import { Router } from "express";
 
 import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
-import { tasksController } from "../controllers/tasks.controller";
+import { deadlinesController, tasksController } from "../controllers/tasks.controller";
 import { schemas } from "../schemas/tasks.schemas";
 import { tasksMiddleware } from "../middlewares/tasks.middleware";
 
@@ -39,20 +39,20 @@ tasksRoute.post(
     sharedMiddlewares.validateSchema(schemas.deadlineRequest),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTaskDontHaveAnDeadLine(req, res, next),
-    (req, res) => tasksController.createDeadline(req, res)
+    (req, res) => deadlinesController.createDeadline(req, res)
 )
 tasksRoute.patch(
     "/deadline/:taskId/:deadlineId",
     sharedMiddlewares.validateSchema(schemas.deadlineUpdate),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
-    (req, res) => tasksController.updateDeadlineById(req, res)
+    (req, res) => deadlinesController.updateDeadlineById(req, res)
 )
 tasksRoute.delete(
     "/deadline/:taskId/:deadlineId",
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
-    (req, res) => tasksController.deleteDeadlineById(req, res)
+    (req, res) => deadlinesController.deleteDeadlineById(req, res)
 )
 
 tasksRoute.use(sharedMiddlewares.handleError)
