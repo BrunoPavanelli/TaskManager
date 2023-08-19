@@ -23,8 +23,7 @@ class TasksContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { taskId } = req.params
-        const task = await this.tasksRepository.findById(taskId)
+        const { task } = req.body;
 
         return res.json(task);
     }

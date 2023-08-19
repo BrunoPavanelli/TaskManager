@@ -16,6 +16,7 @@ class TasksMiddleware {
         });
 
         if (!task) return res.status(404).json({"message": "Task not Found!"})
+        req.body.task = task;
 
         return next();
     }
