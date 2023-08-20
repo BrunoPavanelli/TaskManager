@@ -25,7 +25,7 @@ class PermissionsContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { permission } = req.body;
+        const { permission } = res.locals;
 
         return res.json(permission);
     }
@@ -40,7 +40,7 @@ class PermissionsContoller {
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { permission } = req.body;
+        const { permission } = res.locals;
         await this.permissionsRepository.deleteById(permission);
 
         return res.sendStatus(204);

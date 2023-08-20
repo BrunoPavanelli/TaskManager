@@ -6,7 +6,7 @@ import { rolesServices } from "../services/roles";
 @injectable()
 class RolesContoller {
     constructor(
-        @inject("rolesRepository")
+        @inject("RolesRepository")
         private rolesRepository: RolesRepository
     ) {}
 
