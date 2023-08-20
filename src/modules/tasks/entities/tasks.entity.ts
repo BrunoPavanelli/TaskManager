@@ -1,7 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, OneToOne } from "typeorm";
 
-import { BaseEntity } from "./base.entity";
-import { User } from "./users.entity";
+import { BaseEntity } from "../../../shared/database/entities/base.entity";
+import { User } from "../../users/entities/users.entity";
 import { TaskDeadline } from "./tasksDeadline.entity";
 
 @Entity("tasks")

@@ -1,7 +1,7 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../shared/data-source";
-import { Permission } from "../../../../shared/database/entities/permissions.entity";
+import { Permission } from "../../entities/permissions.entity";
 import { TPermissionRequest, TPermissionUpdate } from "../../interfaces/permissions.interfaces";
 import { PermissionsRepository } from "../permissions.repository";
 

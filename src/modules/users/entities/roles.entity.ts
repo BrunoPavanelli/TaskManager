@@ -1,6 +1,6 @@
 import { Column, Entity, JoinTable, ManyToMany } from "typeorm";
 
-import { BaseEntity } from "./base.entity";
+import { BaseEntity } from "../../../shared/database/entities/base.entity";
 import { Permission } from "./permissions.entity";
 
 @Entity("roles")

@@ -1,6 +1,6 @@
 import { Column, Entity } from "typeorm";
 
-import { BaseEntity } from "./base.entity";
+import { BaseEntity } from "../../../shared/database/entities/base.entity";
 
 @Entity("permissions")
 export class Permission extends BaseEntity {

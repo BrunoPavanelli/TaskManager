@@ -3,7 +3,7 @@ import { inject, injectable } from "tsyringe";
 import { AppError } from "../../../../shared/middlewares/shared.middleware";
 import { TPermissionRequest } from "../../interfaces/permissions.interfaces";
 import { PermissionsRepository } from "../../repositories/permissions.repository";
-import { Permission } from "../../../../shared/database/entities/permissions.entity";
+import { Permission } from "../../entities/permissions.entity";
 
 @injectable()
 class PermissionsCreateService {

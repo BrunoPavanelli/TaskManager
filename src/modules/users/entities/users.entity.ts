@@ -1,9 +1,8 @@
 import { BeforeInsert, BeforeUpdate, Column, Entity, JoinTable, ManyToMany, OneToMany } from "typeorm";
 import { getRounds, hashSync } from "bcryptjs";
 
-import { BaseEntity } from "./base.entity";
-import { Permission } from "./permissions.entity";
-import { Task } from "./tasks.entity";
+import { BaseEntity } from "../../../shared/database/entities/base.entity";
+import { Task } from "../../tasks/entities/tasks.entity";
 import { Role } from "./roles.entity";
 
 @Entity("users")

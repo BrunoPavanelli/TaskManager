@@ -4,7 +4,7 @@ import { injectable } from "tsyringe";
 import { UsersRepository } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
 import { AppDataSource } from "../../../../shared/data-source";
-import { User } from "../../../../shared/database/entities/users.entity";
+import { User } from "../../entities/users.entity";
 
 @injectable()
 class TypeOrmUsersRepository implements UsersRepository {

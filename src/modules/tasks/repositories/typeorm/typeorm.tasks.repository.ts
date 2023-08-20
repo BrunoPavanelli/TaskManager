@@ -1,10 +1,10 @@
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../../../../shared/data-source";
-import { Task } from "../../../../shared/database/entities/tasks.entity";
+import { Task } from "../../entities/tasks.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../../interfaces/tasks.interfaces";
 import { TasksRepository } from "../tasks.repository";
-import { TaskDeadline } from "../../../../shared/database/entities/tasksDeadline.entity";
+import { TaskDeadline } from "../../entities/tasksDeadline.entity";
 import { injectable } from "tsyringe";
 
 @injectable()

@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { Task } from "../../../shared/database/entities/tasks.entity";
+import { Task } from "../entities/tasks.entity";
 import { AppError } from "../../../shared/middlewares/shared.middleware";
 import { TTaskRequest } from "../interfaces/tasks.interfaces";
 import { TasksRepository } from "../repositories/tasks.repository";

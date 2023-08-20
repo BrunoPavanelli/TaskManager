@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, OneToOne } from "typeorm";
 
-import { BaseEntity } from "./base.entity";
+import { BaseEntity } from "../../../shared/database/entities/base.entity";
 import { Task } from "./tasks.entity";
 
 @Entity("tasks_deadlines")
