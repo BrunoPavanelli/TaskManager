@@ -21,7 +21,7 @@ export class CreateTasks1692543898104 implements MigrationInterface {
                         type: "varchar",
                     },
                     {
-                        name: "user_id",
+                        name: "userId",
                         type: "varchar",
                     },
                     {
@@ -35,7 +35,7 @@ export class CreateTasks1692543898104 implements MigrationInterface {
         await queryRunner.createForeignKey(
             "tasks",
             new TableForeignKey({
-                columnNames: ["user_id"],
+                columnNames: ["userId"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "users",
                 onDelete: "CASCADE"
