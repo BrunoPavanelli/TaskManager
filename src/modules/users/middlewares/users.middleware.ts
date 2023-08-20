@@ -56,7 +56,7 @@ class UsersMiddleware {
             (err: any, decode: any) => {
                 if (err) return res.status(401).json({message: err.message})
     
-                const userId: string = decode.sub;
+                const userId: string = decode.subject;
                 res.locals.userId = userId;
             }
         );

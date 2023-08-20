@@ -12,14 +12,14 @@ class TasksCreateService {
         private tasksRepository: TasksRepository
     ) {}
 
-    async taskCreate(taskData: TTaskRequest): Promise<Task> {
+    async taskCreate(taskData: TTaskRequest, userId: string): Promise<Task> {
         const { name } = taskData;
 
         const task: Task | null = await this.tasksRepository.findByProperty("name", name);
-        console.log(task)
+
         if (task) throw new AppError("Task already registered", 400);
 
-        const newTask = await this.tasksRepository.create(taskData);
+        const newTask = await this.tasksRepository.create(taskData, userId);
         return newTask;
     }
 }

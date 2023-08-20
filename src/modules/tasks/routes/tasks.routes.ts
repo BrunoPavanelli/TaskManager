@@ -4,9 +4,13 @@ import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware
 import { deadlinesController, tasksController } from "../controllers/tasks.controller";
 import { schemas } from "../schemas/tasks.schemas";
 import { tasksMiddleware } from "../middlewares/tasks.middleware";
+import { usersMiddleware } from "../../users/middlewares/users.middleware";
 
 const tasksRoute = Router();
 
+tasksRoute.use(
+    (req, res, next) => usersMiddleware.ensureTokenExists(req, res, next)
+);
 tasksRoute.post(
     "", 
     sharedMiddlewares.validateSchema(schemas.request),

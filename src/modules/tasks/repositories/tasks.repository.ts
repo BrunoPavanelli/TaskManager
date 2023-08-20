@@ -3,7 +3,7 @@ import { TaskDeadline } from "../entities/tasksDeadline.entity";
 import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } from "../interfaces/tasks.interfaces";
 
 abstract class TasksRepository {
-    abstract create(taskData: TTaskRequest): Promise<Task>;
+    abstract create(taskData: TTaskRequest, userId: string): Promise<Task>;
     abstract findAll(): Promise<Task[]>;
     abstract findByProperty(taskProperty: string, propertyValue: string): Promise<Task | null>;
     abstract updateById(task: Task, taskData: TTaskUpdate): Promise<Task>;

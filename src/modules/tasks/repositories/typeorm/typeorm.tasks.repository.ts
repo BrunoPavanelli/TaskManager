@@ -6,14 +6,24 @@ import { TTaskDealineRequest, TTaskDealineUpdate, TTaskRequest, TTaskUpdate } fr
 import { TasksRepository } from "../tasks.repository";
 import { TaskDeadline } from "../../entities/tasksDeadline.entity";
 import { injectable } from "tsyringe";
+import { User } from "../../../users/entities/users.entity";
 
 @injectable()
 class TypeOrmTasksRepository implements TasksRepository {
     private repository: Repository<Task> = AppDataSource.getRepository(Task);
     private deadlineRepository: Repository<TaskDeadline> = AppDataSource.getRepository(TaskDeadline);
+    private userRepository: Repository<User> = AppDataSource.getRepository(User);
 
-    async create(taskData: TTaskRequest): Promise<Task> {
-        const task: Task = this.repository.create(taskData)
+    async create(taskData: TTaskRequest, userId: string): Promise<Task> {
+        const user: User | null = await this.userRepository.findOneBy({
+            id: userId
+        });
+
+        const task: Task = this.repository.create({
+            ...taskData,
+            user: user!
+        });
+
         await this.repository.save(task);
 
         return task;
