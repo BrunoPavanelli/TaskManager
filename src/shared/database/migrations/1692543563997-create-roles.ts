@@ -28,25 +28,6 @@ export class CreateRoles1692543563997 implements MigrationInterface {
             })
         );
 
-        await queryRunner.createForeignKey(
-            "users_roles",
-            new TableForeignKey({
-                columnNames: ["role_id"],
-                referencedColumnNames: ["id"],
-                referencedTableName: "roles",
-                onDelete: "CASCADE"
-            })
-        );
-
-        await queryRunner.createForeignKey(
-            "roles_permissions",
-            new TableForeignKey({
-                columnNames: ["role_id"],
-                referencedColumnNames: ["id"],
-                referencedTableName: "roles",
-                onDelete: "CASCADE"
-            })
-        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {

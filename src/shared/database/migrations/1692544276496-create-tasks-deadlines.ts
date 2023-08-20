@@ -21,6 +21,10 @@ export class CreateTasksDeadlines1692544276496 implements MigrationInterface {
                         type: "expiration_hour",
                     },
                     {
+                        name: "task_id",
+                        type: "varchar",
+                    },
+                    {
                         name: "created_at",
                         type: "date"
                     }

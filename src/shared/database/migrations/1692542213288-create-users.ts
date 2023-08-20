@@ -37,15 +37,6 @@ export class CreateUsers1692542213288 implements MigrationInterface {
             true,
         );
 
-        await queryRunner.createForeignKey(
-            "users_roles",
-            new TableForeignKey({
-                columnNames: ["user_id"],
-                referencedColumnNames: ["id"],
-                referencedTableName: "users",
-                onDelete: "CASCADE"
-            })
-        );
     }
 
     public async down(queryRunner: QueryRunner): Promise<void> {
