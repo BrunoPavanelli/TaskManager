@@ -28,6 +28,10 @@ export class CreateUsers1692542213288 implements MigrationInterface {
                         name: "perfil",
                         type: "text",
                     },
+                    {
+                        name: "created_at",
+                        type: "date"
+                    }
                 ]
             }), 
             true,

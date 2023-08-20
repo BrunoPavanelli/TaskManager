@@ -20,6 +20,10 @@ export class CreateTasksDeadlines1692544276496 implements MigrationInterface {
                         name: "description",
                         type: "expiration_hour",
                     },
+                    {
+                        name: "created_at",
+                        type: "date"
+                    }
                 ]
             })
         );

@@ -20,6 +20,10 @@ export class CreatePermissions1692543720142 implements MigrationInterface {
                         name: "description",
                         type: "varchar",
                     },
+                    {
+                        name: "created_at",
+                        type: "date"
+                    }
                 ]
             })
         );
