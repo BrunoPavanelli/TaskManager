@@ -18,6 +18,8 @@ usersRoute.post(
     (req, res, next) => usersMiddleware.ensureCorrectCredentials(req, res, next),
     (req, res) => usersController.login(req, res)
 );
+
+usersRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
 usersRoute.get(
     "", 
     (req, res) => usersController.findAll(req, res)
