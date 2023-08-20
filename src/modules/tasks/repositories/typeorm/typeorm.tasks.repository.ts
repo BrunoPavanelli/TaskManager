@@ -34,11 +34,9 @@ class TypeOrmTasksRepository implements TasksRepository {
     }
 
     async findByProperty(taskProperty: string, propertyValue: string): Promise<Task | null> {
-        console.log(taskProperty, propertyValue)
         const task: Task | null = await this.repository.findOneBy({
             [taskProperty]: propertyValue
         }) 
-        console.log(task)
 
         return task
     } 

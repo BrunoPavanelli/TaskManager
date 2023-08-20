@@ -11,10 +11,9 @@ class TasksContoller {
     ) {}
 
     async create(req: Request, res: Response): Promise<Response> {
-        console.log("---------------------------------------------")
         const taskData = req.body;
         const { userId } = res.locals;
-        console.log(userId, res.locals);
+
         const task = await container.resolve(tasksServices.TasksCreateService).taskCreate(taskData, userId);
 
         return res.status(201).json(task);
