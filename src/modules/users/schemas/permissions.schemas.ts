@@ -11,6 +11,6 @@ const request = permission.omit({ id: true, created_at: true });
 
 const update = request.partial();
 
-const schemas = { permission, request, update };
+const permissions = { permission, request, update };
 
-export { schemas };
+export { permissions };

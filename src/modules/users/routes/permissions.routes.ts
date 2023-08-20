@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
 import { permissionsController } from "../controllers/permissions.controller";
-import { schemas } from "../schemas/permissions.schemas";
+import { schemas } from "../schemas";
 import { permissionsMiddleware } from "../middlewares/permissions.middleware";
 import { usersMiddleware } from "../middlewares/users.middleware";
 
@@ -10,7 +10,7 @@ const permissionsRoute = Router();
 permissionsRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
 permissionsRoute.post(
     "", 
-    sharedMiddlewares.validateSchema(schemas.request),
+    sharedMiddlewares.validateSchema(schemas.permissions.request),
     (req, res) => permissionsController.create(req, res)
 );
 permissionsRoute.get(
@@ -24,7 +24,7 @@ permissionsRoute.get(
 );
 permissionsRoute.patch(
     "/:id",
-    sharedMiddlewares.validateSchema(schemas.update),
+    sharedMiddlewares.validateSchema(schemas.permissions.update),
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.updateById(req, res)
 );

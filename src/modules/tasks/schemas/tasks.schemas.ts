@@ -25,6 +25,6 @@ const deadlineRequest = deadline.omit({ id: true, created_at: true });
 
 const deadlineUpdate = deadlineRequest.partial();
 
-const schemas = { task, request, update, deadline, deadlineRequest, deadlineUpdate };
+const tasks = { task, request, update, deadline, deadlineRequest, deadlineUpdate };
 
-export { schemas };
+export { tasks };

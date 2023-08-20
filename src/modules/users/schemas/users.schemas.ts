@@ -24,6 +24,6 @@ const token = z.object({
 	id: z.string(),
 });
 
-const schemas = { user, request, update, response, login, token };
+const users = { user, request, update, response, login, token };
 
-export { schemas };
+export { users };
