@@ -24,7 +24,7 @@ class UsersMiddleware {
     async ensureCorrectCredentials(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const userData: TLogin = req.body;
 
-        const user = await this.repository.findOneBy({
+        const user: User | null = await this.repository.findOneBy({
             email: userData.email
         });
 

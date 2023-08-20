@@ -12,6 +12,12 @@ usersRoute.post(
     sharedMiddlewares.validateSchema(schemas.request),
     (req, res) => usersController.create(req, res)
 );
+usersRoute.post(
+    "/login",
+    sharedMiddlewares.validateSchema(schemas.login),
+    (req, res, next) => usersMiddleware.ensureCorrectCredentials(req, res, next),
+    (req, res) => usersController.login(req, res)
+);
 usersRoute.get(
     "", 
     (req, res) => usersController.findAll(req, res)

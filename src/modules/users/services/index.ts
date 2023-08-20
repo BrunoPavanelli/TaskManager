@@ -1,8 +1,10 @@
 import { UsersCreateService } from "./usersCreate.service";
+import { UsersLoginService } from "./usersLogin.service";
 
 
 const usersServices = {
-    UsersCreateService
+    UsersCreateService,
+    UsersLoginService
 };
 
 

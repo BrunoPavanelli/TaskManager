@@ -12,6 +12,15 @@ class UsersContoller {
         private usersRepository: UsersRepository
     ) {}
 
+    login(req: Request, res: Response): Response {
+        const userLoginService = new usersServices.UsersLoginService();
+        const { user } = res.locals;
+        
+        const token = userLoginService.userLogin(user.id);
+
+        return res.json(token);
+    }
+
     async create(req: Request, res: Response): Promise<Response> {
         const userData = req.body;
         const user = await container.resolve(usersServices.UsersCreateService).userCreate(userData);
