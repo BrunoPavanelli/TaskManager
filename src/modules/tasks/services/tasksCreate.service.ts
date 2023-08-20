@@ -1,18 +1,28 @@
-// import { injectable } from "tsyringe";
-// import { TasksRepository } from "../repositories/tasks.repository";
-// import { TTaskRequest } from "../interfaces/tasks.interfaces";
-// import { Task } from "../../../shared/database/entities/tasks.entity";
+import { inject, injectable } from "tsyringe";
 
-// @injectable()
-// class TasksCreateService {
-//     constructor(
-//         @injectable("TasksRepository")
-//         private tasksRepository: TasksRepository
-//     ) {}
+import { Task } from "../../../shared/database/entities/tasks.entity";
+import { AppError } from "../../../shared/middlewares/shared.middleware";
+import { TTaskRequest } from "../interfaces/tasks.interfaces";
+import { TasksRepository } from "../repositories/tasks.repository";
 
-//     async taskCreate(taskData: TTaskRequest): Promise<Task> {
-//         const { name } = taskData;
+@injectable()
+class TasksCreateService {
+    constructor(
+        @inject("TasksRepository")
+        private tasksRepository: TasksRepository
+    ) {}
 
-//         const task: Task | null = this.tasksRepository.
-//     }
-// }
+    async taskCreate(taskData: TTaskRequest): Promise<Task> {
+        const { name } = taskData;
+
+        const task: Task | null = await this.tasksRepository.findByProperty("name", name);
+        console.log(task)
+        if (task) throw new AppError("Task already registered", 400);
+
+        const newTask = await this.tasksRepository.create(taskData);
+        return newTask;
+    }
+}
+
+export { TasksCreateService };
+

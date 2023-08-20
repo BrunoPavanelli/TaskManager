@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { container, inject, injectable } from "tsyringe";
 import { TasksRepository } from "../repositories/tasks.repository";
+import { tasksServices } from "../services";
 
 @injectable()
 class TasksContoller {
@@ -11,7 +12,7 @@ class TasksContoller {
 
     async create(req: Request, res: Response): Promise<Response> {
         const taskData = req.body
-        const task = await this.tasksRepository.create(taskData);
+        const task = await container.resolve(tasksServices.TasksCreateService).taskCreate(taskData);
 
         return res.status(201).json(task);
     }
