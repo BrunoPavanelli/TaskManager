@@ -3,7 +3,7 @@ import path from "path";
 import "dotenv/config";
 
 const settings = (): DataSourceOptions => {
-    const entitiesPath: string = path.join(__dirname, "./database/entities/**.{ts,js}");
+    const entitiesPath: string = path.join(__dirname, "../modules/*/entities/**.{ts,js}");
     const migrationPath: string = path.join(
         __dirname,
         "./database/migrations/**.{ts, js}"
