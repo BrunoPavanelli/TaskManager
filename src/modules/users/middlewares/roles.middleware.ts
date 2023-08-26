@@ -35,13 +35,6 @@ class RolesMiddleware {
             if (permissionFounded) return true
         });
 
-        // console.log("role permissions")
-        // console.log(role.permissions);
-        // console.log("permissions")
-        // console.log(permissions);
-        // console.log("founded permissions")
-        // console.log(foundedPermissionsInRole);
-
         if (method === "POST") {
             if (permissions.length === foundedPermissionsInRole.length) return res.status(400).json({"message": "All passed permissions is already related to role"});
         };

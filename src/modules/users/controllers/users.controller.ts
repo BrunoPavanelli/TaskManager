@@ -25,7 +25,7 @@ class UsersContoller {
     async create(req: Request, res: Response): Promise<Response> {
         const userData = req.body;
         const user = await container.resolve(usersServices.UsersCreateService).userCreate(userData);
-        console.log(user)
+
         const userResponse = schemas.users.response.parse(user);
         return res.status(201).json(userResponse);
     }
