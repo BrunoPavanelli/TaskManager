@@ -8,17 +8,14 @@ export class CreateRolesPermissions1692545196917 implements MigrationInterface {
                 name: "roles_permissions",
                 columns: [
                     {
-                        name: "roleId",
+                        name: "role_id",
                         type: "varchar"
                     },
                     {
-                        name: "permissionId",
+                        name: "permission_id",
                         type: "varchar"
-                    },
-                    {
-                        name: "created_at",
-                        type: "date"
                     }
+
                 ]
             })
         );
@@ -27,7 +24,7 @@ export class CreateRolesPermissions1692545196917 implements MigrationInterface {
         await queryRunner.createForeignKey(
             "roles_permissions",
             new TableForeignKey({
-                columnNames: ["roleId"],
+                columnNames: ["role_id"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "roles",
                 onDelete: "CASCADE"
@@ -37,7 +34,7 @@ export class CreateRolesPermissions1692545196917 implements MigrationInterface {
         await queryRunner.createForeignKey(
             "roles_permissions",
             new TableForeignKey({
-                columnNames: ["permissionId"],
+                columnNames: ["permission_id"],
                 referencedColumnNames: ["id"],
                 referencedTableName: "permissions",
                 onDelete: "CASCADE"

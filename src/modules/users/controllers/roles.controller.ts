@@ -50,6 +50,20 @@ class RolesContoller {
 
         return res.sendStatus(204);
     }
+
+    async addPermission(req: Request, res: Response): Promise<Response> {
+        const { role, permissions } = res.locals;
+        const response = await this.rolesRepository.addPermission(role, permissions);
+
+        return res.json(response);
+    }
+
+    async removePermission(req: Request, res: Response): Promise<Response> {
+        const { role, permissions } = res.locals;
+        const response = await this.rolesRepository.removePermission(role, permissions);
+
+        return res.json(response);
+    }
 }
 
 const rolesController = container.resolve(RolesContoller);

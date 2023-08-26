@@ -5,6 +5,8 @@ import { rolesController } from "../controllers/roles.controller";
 import { rolesMiddleware } from "../middlewares/roles.middleware";
 import { usersMiddleware } from "../middlewares/users.middleware";
 import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
+import { permissionsMiddleware } from "../middlewares/permissions.middleware";
+import { roles } from "../schemas/roles.schemas";
 
 const rolesRoute = Router();
 
@@ -33,7 +35,21 @@ rolesRoute.delete(
     "/:id", 
     (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
     (req, res) => rolesController.deleteById(req, res)
-)
+);
+rolesRoute.post(
+    "/:id/add_permission",
+    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
+    (req, res, next) => permissionsMiddleware.ensurePermissionsIdsExists(req, res, next),
+    (req, res, next) => rolesMiddleware.ensurePermissionsNotRelatedWithRole(req, res, next),
+    (req, res) => rolesController.addPermission(req, res)    
+);
+rolesRoute.patch(
+    "/:id/remove_permission",
+    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
+    (req, res, next) => permissionsMiddleware.ensurePermissionsIdsExists(req, res, next),
+    (req, res, next) => rolesMiddleware.ensurePermissionsNotRelatedWithRole(req, res, next),
+    (req, res) => rolesController.removePermission(req, res)    
+);
 
 rolesRoute.use(sharedMiddlewares.handleError)
 export { rolesRoute };

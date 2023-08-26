@@ -4,6 +4,7 @@ import { AppDataSource } from "../../../../shared/data-source";
 import { Role } from "../../entities/roles.entity";
 import { TRoleRequest, TRoleUpdate } from "../../interfaces/roles.interfaces";
 import { RolesRepository } from "../roles.repository";
+import { Permission } from "../../entities/permissions.entity";
 
 class TypeOrmRolesRepository implements RolesRepository {
     private repository: Repository<Role> = AppDataSource.getRepository(Role);
@@ -44,6 +45,24 @@ class TypeOrmRolesRepository implements RolesRepository {
         });
 
         return
+    }
+
+    async addPermission(role: Role, permissions: Permission[]): Promise<object> {
+        role.permissions = permissions;
+        await this.repository.save(role);
+
+        return { message: "Permissions added succesfully!" };
+    }
+
+    async removePermission(role: Role, permissions: Permission[]): Promise<object> {
+        role.permissions = role.permissions.filter(permission => {
+            const permissionFounded = permissions.find((permissionInBody: Permission) => permissionInBody.id === permission.id)
+            
+            if (!permissionFounded) return true
+        });
+        await this.repository.save(role);
+
+        return { message: "Permissions removed succesfully!" };
     }
 }
 
