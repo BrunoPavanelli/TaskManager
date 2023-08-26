@@ -18,7 +18,31 @@ const makeUsersArray = (arrayLength: number) => {
     return usersArray;
 };
 
-const permissionsArrays = [
+const permissionsArray = [
+    {
+        name: "CAN_CREATE_ROLES",
+        description: "permisson to create a new role"
+    },
+    {
+        name: "CAN_UPDATE_ROLES",
+        description: "permisson to update a role"
+    },
+    {
+        name: "CAN_DELETE_ROLES",
+        description: "permisson to delete a role"
+    },
+    {
+        name: "CAN_CREATE_PERIMISSIONS",
+        description: "permisson to create a new permission"
+    },
+    {
+        name: "CAN_UPDATE_PERIMISSIONS",
+        description: "permisson to update a permission"
+    },
+    {
+        name: "CAN_DELETE_PERIMISSIONS",
+        description: "permisson to delete a permission"
+    },
     {
         name: "CAN_CREATE_USER",
         description: "permission to create a new user",
