@@ -3,7 +3,8 @@ import { container, inject, injectable } from "tsyringe";
 
 import { UsersRepository } from "../repositories/users.repository";
 import { usersServices } from "../services";
-import { schemas } from "../schemas/users.schemas";
+import { schemas } from "../schemas";
+
 
 @injectable()
 class UsersContoller {
@@ -24,22 +25,22 @@ class UsersContoller {
     async create(req: Request, res: Response): Promise<Response> {
         const userData = req.body;
         const user = await container.resolve(usersServices.UsersCreateService).userCreate(userData);
-
-        const userResponse = schemas.response.parse(user);
+        console.log(user)
+        const userResponse = schemas.users.response.parse(user);
         return res.status(201).json(userResponse);
     }
 
     async findAll(req: Request, res: Response): Promise<Response> {
         const users = await this.usersRepository.findAll();
 
-        const usersResponse = users.map(user => schemas.response.parse(user));
+        const usersResponse = users.map(user => schemas.users.response.parse(user));
         return res.json(usersResponse);
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
         const { user } = req.body;
 
-        const userResponse = schemas.response.parse(user);
+        const userResponse = schemas.users.response.parse(user);
         return res.json(userResponse);
     }
 
@@ -48,7 +49,7 @@ class UsersContoller {
         const userData = req.body;
         const userPatched = await this.usersRepository.updateById(user, userData);
 
-        const userResponse = schemas.response.parse(userPatched);
+        const userResponse = schemas.users.response.parse(userPatched);
         return res.json(userResponse);
     }
 
