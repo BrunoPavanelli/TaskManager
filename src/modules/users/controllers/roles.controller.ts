@@ -3,6 +3,7 @@ import { container, inject, injectable } from "tsyringe";
 
 import { RolesRepository } from "../repositories/roles.repository";
 import { rolesServices } from "../services/roles";
+
 @injectable()
 class RolesContoller {
     constructor(
@@ -12,7 +13,9 @@ class RolesContoller {
 
     async create(req: Request, res: Response): Promise<Response> {
         const roleData = req.body;
-        const role = await container.resolve(rolesServices.RolesCreateService).roleCreate(roleData);
+        const role = await container
+            .resolve(rolesServices.RolesCreateService)
+            .roleCreate(roleData);
 
         return res.status(201).json(role);
     }
@@ -33,7 +36,10 @@ class RolesContoller {
         const { role } = res.locals;
         const roleData = req.body;
 
-        const roleResponse = await this.rolesRepository.updateById(role, roleData);
+        const roleResponse = await this.rolesRepository.updateById(
+            role,
+            roleData
+        );
 
         return res.json(roleResponse);
     }
@@ -44,7 +50,6 @@ class RolesContoller {
 
         return res.sendStatus(204);
     }
-
 }
 
 const rolesController = container.resolve(RolesContoller);
