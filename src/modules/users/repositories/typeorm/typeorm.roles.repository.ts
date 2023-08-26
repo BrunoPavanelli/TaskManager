@@ -48,7 +48,7 @@ class TypeOrmRolesRepository implements RolesRepository {
     }
 
     async addPermission(role: Role, permissions: Permission[]): Promise<object> {
-        role.permissions = permissions;
+        role.permissions = [...role.permissions, ...permissions];
         await this.repository.save(role);
 
         return { message: "Permissions added succesfully!" };
