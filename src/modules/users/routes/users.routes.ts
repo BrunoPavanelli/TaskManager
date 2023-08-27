@@ -3,6 +3,7 @@ import { Router } from "express";
 import { usersController } from "../controllers/users.controller";
 import { usersMiddleware } from "../middlewares/users.middleware";
 import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
+import { rolesMiddleware } from "../middlewares/roles.middleware";
 import { schemas } from "../schemas";
 
 const usersRoute = Router();
@@ -39,6 +40,20 @@ usersRoute.delete(
     "/:id", 
     (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
     (req, res) => usersController.deleteById(req, res)
+);
+usersRoute.post(
+    "/:id/add_role", 
+    (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
+    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
+    (req, res, next) => usersMiddleware.ensureRoleRaletionToUser(req, res, next),
+    (req, res) => usersController.addRole(req, res)
+);
+usersRoute.patch(
+    "/:id/remove_role", 
+    (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
+    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
+    (req, res, next) => usersMiddleware.ensureRoleRaletionToUser(req, res, next),
+    (req, res) => usersController.removeRole(req, res)
 );
 
 usersRoute.use(sharedMiddlewares.handleError)

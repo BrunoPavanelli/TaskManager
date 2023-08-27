@@ -9,7 +9,7 @@ class RolesMiddleware {
     private repository: Repository<Role> = AppDataSource.getRepository(Role);
 
     async ensureRolesIdExists(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params
+        const id  = req.method === "GET" ? req.params.id : req.body.role
         const role: Role[] | null = await this.repository.find({
             where: {
                 id: id

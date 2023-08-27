@@ -5,6 +5,7 @@ import { UsersRepository } from "../users.repository";
 import { TUserRequest, TUserUpdate } from "../../interfaces/users.interfaces";
 import { AppDataSource } from "../../../../shared/data-source";
 import { User } from "../../entities/users.entity";
+import { Role } from "../../entities/roles.entity";
 
 @injectable()
 class TypeOrmUsersRepository implements UsersRepository {
@@ -48,6 +49,19 @@ class TypeOrmUsersRepository implements UsersRepository {
         return
     }
 
+    async addRole(user: User, role: Role): Promise<object> {
+        user.roles = [ ...user.roles, role ];
+        await this.repository.save(user);
+
+        return { message: "Role added sussesfully!" }
+    }
+
+    async removeRole(user: User, role: Role): Promise<object> {
+        user.roles = user.roles.filter(userRole => role.id !== userRole.id);
+        await this.repository.save(user);
+
+        return { message: "Role removed succesfully!" };
+    }
 }
 
 export { TypeOrmUsersRepository };

@@ -12,14 +12,14 @@ class UsersMiddleware {
     private repository: Repository<User> = AppDataSource.getRepository(User);
 
     async ensureUsersIdExists(req: Request, res: Response, next: NextFunction) {
-        const { id } = req.params
+        const { id } = req.params;
         const user: User | null = await this.repository.findOneBy({
             id: id
         });
 
-        if (!user) return res.status(404).json({"message": "User not Found!"})
+        if (!user) return res.status(404).json({"message": "User not Found!"});
 
-        req.body.user = user;
+        res.locals.user = user;
         return next();
     }
     
@@ -61,6 +61,35 @@ class UsersMiddleware {
             }
         );
     
+        return next();
+    }
+
+    async ensureRoleRaletionToUser(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
+        const { id } = req.params;
+        const { role } = res.locals;
+        const { method } = req;
+
+        const user: User | null = await this.repository.findOne({
+            where: {
+                id: id
+            }, relations: {
+                roles: true
+            }
+        });
+
+        if (!user) return res.status(404).json({"message": "User not Found!"});
+
+        const roleFounded = user.roles.find(userRole => userRole.id === role.id);
+        
+        if (method === "POST") {
+            if (roleFounded) return res.status(409).json({"message": "User already related to this role!"});
+        };
+
+        if (method === "PATCH") {
+            if (!roleFounded) return res.status(409).json({"message": "User isn't related to this role!"});
+        };
+
+        res.locals.user = user;
         return next();
     }
 }

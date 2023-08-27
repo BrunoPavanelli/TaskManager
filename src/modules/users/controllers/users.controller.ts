@@ -38,14 +38,14 @@ class UsersContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { user } = req.body;
+        const { user } = res.locals;
 
         const userResponse = schemas.users.response.parse(user);
         return res.json(userResponse);
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { user } = req.body;
+        const { user } = res.locals;
         const userData = req.body;
         const userPatched = await this.usersRepository.updateById(user, userData);
 
@@ -54,10 +54,24 @@ class UsersContoller {
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { user } = req.body;
+        const { user } = res.locals;
         await this.usersRepository.deleteById(user);
 
         return res.sendStatus(204);
+    }
+
+    async addRole(req: Request, res: Response): Promise<Response> {
+        const { user, role } = res.locals;
+        const response = await this.usersRepository.addRole(user, role);
+
+        return res.json(response);
+    }
+
+    async removeRole(req: Request, res: Response): Promise<Response> {
+        const { user, role } = res.locals;
+        const response = await this.usersRepository.removeRole(user, role);
+
+        return res.json(response);
     }
 
 }
