@@ -20,10 +20,7 @@ const login = z.object({
 	password: z.string(),
 });
 
-const token = z.object({
-	id: z.string(),
-});
 
-const users = { user, request, update, response, login, token };
+const users = { user, request, update, response, login };
 
 export { users };

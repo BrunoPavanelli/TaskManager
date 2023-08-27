@@ -6,6 +6,7 @@ import { NextFunction, Request, Response } from "express";
 import { AppDataSource } from "../../../shared/data-source";
 import { User } from "../entities/users.entity";
 import { TLogin } from "../interfaces/users.interfaces";
+import { Role } from "../entities/roles.entity";
 
 
 class UsersMiddleware {
@@ -26,8 +27,13 @@ class UsersMiddleware {
     async ensureCorrectCredentials(req: Request, res: Response, next: NextFunction): Promise<Response | void> {
         const userData: TLogin = req.body;
 
-        const user: User | null = await this.repository.findOneBy({
-            email: userData.email
+        const user: User | null = await this.repository.findOne({
+            where: {
+                email: userData.email,
+            },
+            relations: {
+                roles: true
+            }
         });
 
         if (!user) return res.status(401).json({message: "Invalid credentials"});
@@ -57,7 +63,9 @@ class UsersMiddleware {
                 if (err) return res.status(401).json({message: err.message})
     
                 const userId: string = decode.subject;
+                const roles: Role[] = decode.roles;
                 res.locals.userId = userId;
+                res.locals.roles = roles;
             }
         );
     

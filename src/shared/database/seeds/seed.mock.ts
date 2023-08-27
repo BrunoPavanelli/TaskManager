@@ -20,27 +20,27 @@ const makeUsersArray = (arrayLength: number) => {
 
 const permissionsArray = [
     {
-        name: "CAN_CREATE_ROLES",
+        name: "CAN_CREATE_ROLE",
         description: "permisson to create a new role"
     },
     {
-        name: "CAN_UPDATE_ROLES",
+        name: "CAN_UPDATE_ROLE",
         description: "permisson to update a role"
     },
     {
-        name: "CAN_DELETE_ROLES",
+        name: "CAN_DELETE_ROLE",
         description: "permisson to delete a role"
     },
     {
-        name: "CAN_CREATE_PERIMISSIONS",
+        name: "CAN_CREATE_PERIMISSION",
         description: "permisson to create a new permission"
     },
     {
-        name: "CAN_UPDATE_PERIMISSIONS",
+        name: "CAN_UPDATE_PERIMISSION",
         description: "permisson to update a permission"
     },
     {
-        name: "CAN_DELETE_PERIMISSIONS",
+        name: "CAN_DELETE_PERIMISSION",
         description: "permisson to delete a permission"
     },
     {
@@ -63,6 +63,14 @@ const permissionsArray = [
         name: "CAN_ADD_DEADLINE",
         description: "permission to add a deadline to a task",
     },
+    {
+        name: "CAN_UPDATE_DEADLINE",
+        description: "permission to add a deadline to a task",
+    },
+    {
+        name: "CAN_REMOVE_DEADLINE",
+        description: "permission to add a deadline to a task",
+    },
 ];
 
 const rolesArray = [
@@ -72,6 +80,6 @@ const rolesArray = [
     },
     {
         name: "TASK_MANIPULATOR",
-        description: "role that gives all permissions to use all tasks resources"
+        description: "role that gives all permissions all tasks resources"
     }
 ];

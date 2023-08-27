@@ -15,9 +15,9 @@ class UsersContoller {
 
     login(req: Request, res: Response): Response {
         const userLoginService = new usersServices.UsersLoginService();
-        const { user } = res.locals;
-        
-        const token = userLoginService.userLogin(user.id);
+        const { id, roles } = res.locals.user;
+
+        const token = userLoginService.userLogin({id, roles});
 
         return res.json(token);
     }

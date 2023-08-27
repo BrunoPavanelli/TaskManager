@@ -2,6 +2,7 @@ import { z } from "zod";
 
 import { schemas } from "../schemas";
 import { DeepPartial } from "typeorm";
+import { Role } from "../entities/roles.entity";
 
 type TUser = z.infer<typeof schemas.users.user>;
 
@@ -13,7 +14,10 @@ type TUserUpdate = DeepPartial<TUserRequest>;
 
 type TLogin = z.infer<typeof schemas.users.login>;
 
-type TToken = z.infer<typeof schemas.users.token>;
+type TToken = {
+	id: string,
+	roles: Role[]
+};
 
 type TTokenObject = { token: string };
 

@@ -10,6 +10,7 @@ const permissionsRoute = Router();
 permissionsRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
 permissionsRoute.post(
     "", 
+    sharedMiddlewares.ensurePermission("CAN_CREATE_PERMISSION"),
     sharedMiddlewares.validateSchema(schemas.permissions.request),
     (req, res) => permissionsController.create(req, res)
 );
@@ -24,12 +25,14 @@ permissionsRoute.get(
 );
 permissionsRoute.patch(
     "/:id",
+    sharedMiddlewares.ensurePermission("CAN_UPDATE_PERMISSION"),
     sharedMiddlewares.validateSchema(schemas.permissions.update),
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.updateById(req, res)
 );
 permissionsRoute.delete(
     "/:id", 
+    sharedMiddlewares.ensurePermission("CAN_DELETE_PERMISSION"),
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.deleteById(req, res)
 )

@@ -8,7 +8,7 @@ class UsersLoginService {
 
     userLogin(data: TToken): TTokenObject {
         const token = sign(
-            {},
+            { roles: data.roles },
             String(process.env.SECRET_KEY),
             { expiresIn: "1d", subject: String(data.id) }
         );

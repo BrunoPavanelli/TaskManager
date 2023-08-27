@@ -13,6 +13,7 @@ tasksRoute.use(
 );
 tasksRoute.post(
     "", 
+    sharedMiddlewares.ensurePermission("CAN_CREATE_TASK"),
     sharedMiddlewares.validateSchema(schemas.tasks.request),
     (req, res) => tasksController.create(req, res)
 );
@@ -27,12 +28,14 @@ tasksRoute.get(
 );
 tasksRoute.patch(
     "/:taskId",
+    sharedMiddlewares.ensurePermission("CAN_UPDATE_TASK"),
     sharedMiddlewares.validateSchema(schemas.tasks.update),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res) => tasksController.updateById(req, res)
 );
 tasksRoute.delete(
-    "/:taskId", 
+    "/:taskId",
+    sharedMiddlewares.ensurePermission("CAN_DELETE_TASK"),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res) => tasksController.deleteById(req, res)
 );
@@ -40,6 +43,7 @@ tasksRoute.delete(
 // Tasks Deadlines
 tasksRoute.post(
     "/deadline/:taskId",
+    sharedMiddlewares.ensurePermission("CAN_ADD_DEADLINE"),
     sharedMiddlewares.validateSchema(schemas.tasks.deadlineRequest),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTaskDontHaveAnDeadLine(req, res, next),
@@ -47,6 +51,7 @@ tasksRoute.post(
 )
 tasksRoute.patch(
     "/deadline/:taskId/:deadlineId",
+    sharedMiddlewares.ensurePermission("CAN_UPDATE_DEADLINE"),
     sharedMiddlewares.validateSchema(schemas.tasks.deadlineUpdate),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
@@ -54,6 +59,7 @@ tasksRoute.patch(
 )
 tasksRoute.delete(
     "/deadline/:taskId/:deadlineId",
+    sharedMiddlewares.ensurePermission("CAN_REMOVE_DEADLINE"),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
     (req, res) => deadlinesController.deleteDeadlineById(req, res)

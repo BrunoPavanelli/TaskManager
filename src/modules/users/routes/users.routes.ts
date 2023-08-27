@@ -9,11 +9,6 @@ import { schemas } from "../schemas";
 const usersRoute = Router();
 
 usersRoute.post(
-    "", 
-    sharedMiddlewares.validateSchema(schemas.users.request),
-    (req, res) => usersController.create(req, res)
-);
-usersRoute.post(
     "/login",
     sharedMiddlewares.validateSchema(schemas.users.login),
     (req, res, next) => usersMiddleware.ensureCorrectCredentials(req, res, next),
@@ -21,6 +16,12 @@ usersRoute.post(
 );
 
 usersRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
+usersRoute.post(
+    "",
+    sharedMiddlewares.ensurePermission("CAN_CREATE_USER"),
+    sharedMiddlewares.validateSchema(schemas.users.request),
+    (req, res) => usersController.create(req, res)
+);
 usersRoute.get(
     "", 
     (req, res) => usersController.findAll(req, res)

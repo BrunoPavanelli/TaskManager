@@ -1,5 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { ZodError, ZodTypeAny } from "zod";
+import { Repository } from "typeorm";
+
+import { AppDataSource } from "../data-source";
+import { Permission } from "../../modules/users/entities/permissions.entity";
+import { Role } from "../../modules/users/entities/roles.entity";
 
 class AppError extends Error {
     statusCode: number;
@@ -11,6 +16,9 @@ class AppError extends Error {
 }
 
 class SharedMiddlewares {
+    permissionRepository: Repository<Permission> = AppDataSource.getRepository(Permission);
+    roleRepository: Repository<Role> = AppDataSource.getRepository(Role);
+
     handleError(err: Error, req: Request, res: Response, next: NextFunction) {
         if (err instanceof AppError) {
             const errorMessage = {message: err.message};
@@ -34,6 +42,27 @@ class SharedMiddlewares {
             
             req.body = validated;
             return next();
+        };
+    }
+
+    ensurePermission(permission: string) {
+        return async (req: Request, res: Response, next: NextFunction): Promise<void | Response> => {
+            const userRoles: Role[] = res.locals.roles;
+
+            const rolePermission = await this.roleRepository.find({
+                relations: {
+                    permissions: true
+                },
+                where: {
+                    permissions: {
+                        name: permission
+                    }
+                }
+            });
+
+            const isRolePermissionInUserRoles = userRoles.some(userRole => rolePermission.includes(userRole));
+
+            return isRolePermissionInUserRoles ? next() : res.status(403).json({message: "You don't have the permission to use this resource."});
         };
     }
 
