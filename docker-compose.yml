@@ -8,7 +8,9 @@ services:
       target: base
     volumes:
       - ./src:/taskmanager/src
-    command: npm run dev
+      - ./package.json:/taskmanager/package.json
+      - ./package.lock.json:/taskmanager/package.lock.json
+    command: sh -c "npm i && npm run dev"
     expose:
       - '3333'
     ports:
