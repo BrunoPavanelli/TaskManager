@@ -1,10 +1,21 @@
-import { container } from "tsyringe";
-import { TypeOrmUsersRepository } from "../../modules/users/repositories/typeorm/typeorm.users.repository";
-import { TypeOrmPermissionsRepository } from "../../modules/users/repositories/typeorm/typeorm.permissions.repository";
-import { TypeOrmTasksRepository } from "../../modules/tasks/repositories/typeorm/typeorm.tasks.repository";
-import { TypeOrmRolesRepository } from "../../modules/users/repositories/typeorm/typeorm.roles.repository";
+import fs from 'fs';
+import path from 'path';
 
-container.register("UsersRepository", TypeOrmUsersRepository);
-container.register("RolesRepository", TypeOrmRolesRepository);
-container.register("TasksRepository", TypeOrmTasksRepository);
-container.register("PermissionsRepository", TypeOrmPermissionsRepository);
+function searchContainerInSubFolders(folderPath: string) {
+  const subfolders = fs
+    .readdirSync(folderPath, { withFileTypes: true })
+    .filter((entry) => entry.isDirectory())
+    .map((entry) => entry.name);
+
+  subfolders.forEach((subfolder) => {
+    const containerFolder = path.resolve(folderPath, subfolder, 'container');
+
+    if (fs.existsSync(containerFolder)) {
+      require(containerFolder);
+    }
+  });
+}
+
+const modulesPath = path.resolve(__dirname, '..', '..', 'modules');
+
+searchContainerInSubFolders(modulesPath);
