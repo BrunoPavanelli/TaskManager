@@ -2,12 +2,11 @@ import { NextFunction, Request, Response, Router } from "express";
 import { permissionsController } from "../controllers/permissions.controller";
 import { schemas } from "../schemas";
 import { permissionsMiddleware } from "../middlewares/permissions.middleware";
-import { usersMiddleware } from "../middlewares/users.middleware";
-import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+import * as sharedMiddlewares from "../../../shared/middlewares";
 
-const errorHandler = new ErrorHandler();
-const schemaValidator = new SchemaValidator();
-const permissionEnsurer = new PermissionEnsurer();
+const errorHandler = new sharedMiddlewares.ErrorHandler();
+const schemaValidator = new sharedMiddlewares.SchemaValidator();
+const permissionEnsurer = new sharedMiddlewares.PermissionEnsurer();
 
 const permissionsRoute = Router();
 

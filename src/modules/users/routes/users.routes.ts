@@ -4,11 +4,11 @@ import { usersController } from "../controllers/users.controller";
 import { usersMiddleware } from "../middlewares/users.middleware";
 import { rolesMiddleware } from "../middlewares/roles.middleware";
 import { schemas } from "../schemas";
-import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+import * as sharedMiddlewares from "../../../shared/middlewares";
 
-const errorHandler = new ErrorHandler();
-const schemaValidator = new SchemaValidator();
-const permissionEnsurer = new PermissionEnsurer();
+const errorHandler = new sharedMiddlewares.ErrorHandler();
+const schemaValidator = new sharedMiddlewares.SchemaValidator();
+const permissionEnsurer = new sharedMiddlewares.PermissionEnsurer();
 
 const usersRoute = Router();
 
