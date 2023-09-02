@@ -1,7 +1,8 @@
 import { inject, injectable } from "tsyringe";
 import { UsersRepository } from "../repositories/users.repository";
 import { TUserRequest, TUserResponse } from "../interfaces/users.interfaces";
-import { AppError } from "../../../shared/middlewares/shared.middleware";
+import { AppError } from "../../../shared/middlewares/ErrorHandler.middleware";
+
 
 @injectable()
 class UsersCreateService {

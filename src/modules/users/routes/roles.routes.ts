@@ -1,20 +1,23 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 import { schemas } from "../schemas";
 import { rolesController } from "../controllers/roles.controller";
 import { rolesMiddleware } from "../middlewares/roles.middleware";
 import { usersMiddleware } from "../middlewares/users.middleware";
-import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
 import { permissionsMiddleware } from "../middlewares/permissions.middleware";
-import { roles } from "../schemas/roles.schemas";
+import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+
+const errorHandler = new ErrorHandler();
+const schemaValidator = new SchemaValidator();
+const permissionEnsurer = new PermissionEnsurer();
 
 const rolesRoute = Router();
 
-rolesRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
+rolesRoute.use((req, res, next) => permissionEnsurer.ensureTokenExists(req, res, next));
 rolesRoute.post(
     "", 
-    sharedMiddlewares.ensurePermission("CAN_CREATE_ROLE"),
-    sharedMiddlewares.validateSchema(schemas.roles.request),
+    permissionEnsurer.ensurePermission("CAN_CREATE_ROLE"),
+    schemaValidator.validateSchema(schemas.roles.request),
     (req, res) => rolesController.create(req, res)
 );
 rolesRoute.get(
@@ -28,14 +31,14 @@ rolesRoute.get(
 );
 rolesRoute.patch(
     "/:id",
-    sharedMiddlewares.ensurePermission("CAN_UPDATE_ROLE"),
-    sharedMiddlewares.validateSchema(schemas.roles.update),
+    permissionEnsurer.ensurePermission("CAN_UPDATE_ROLE"),
+    schemaValidator.validateSchema(schemas.roles.update),
     (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
     (req, res) => rolesController.updateById(req, res)
 );
 rolesRoute.delete(
     "/:id", 
-    sharedMiddlewares.ensurePermission("CAN_DELETE_ROLE"),
+    permissionEnsurer.ensurePermission("CAN_DELETE_ROLE"),
     (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
     (req, res) => rolesController.deleteById(req, res)
 );
@@ -54,5 +57,5 @@ rolesRoute.patch(
     (req, res) => rolesController.removePermission(req, res)    
 );
 
-rolesRoute.use(sharedMiddlewares.handleError)
+rolesRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));
 export { rolesRoute };

@@ -1,5 +1,3 @@
-
-import { injectable } from "tsyringe";
 import { TToken, TTokenObject } from "../interfaces/users.interfaces";
 import { sign } from "jsonwebtoken";
 

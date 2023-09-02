@@ -1,25 +1,29 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
 import { usersController } from "../controllers/users.controller";
 import { usersMiddleware } from "../middlewares/users.middleware";
-import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
 import { rolesMiddleware } from "../middlewares/roles.middleware";
 import { schemas } from "../schemas";
+import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+
+const errorHandler = new ErrorHandler();
+const schemaValidator = new SchemaValidator();
+const permissionEnsurer = new PermissionEnsurer();
 
 const usersRoute = Router();
 
 usersRoute.post(
     "/login",
-    sharedMiddlewares.validateSchema(schemas.users.login),
+    schemaValidator.validateSchema(schemas.users.login),
     (req, res, next) => usersMiddleware.ensureCorrectCredentials(req, res, next),
     (req, res) => usersController.login(req, res)
 );
 
-usersRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
+usersRoute.use((req, res, next) => permissionEnsurer.ensureTokenExists(req, res, next));
 usersRoute.post(
     "",
-    sharedMiddlewares.ensurePermission("CAN_CREATE_USER"),
-    sharedMiddlewares.validateSchema(schemas.users.request),
+    permissionEnsurer.ensurePermission("CAN_CREATE_USER"),
+    schemaValidator.validateSchema(schemas.users.request),
     (req, res) => usersController.create(req, res)
 );
 usersRoute.get(
@@ -33,7 +37,7 @@ usersRoute.get(
 );
 usersRoute.patch(
     "/:id",
-    sharedMiddlewares.validateSchema(schemas.users.update),
+    schemaValidator.validateSchema(schemas.users.update),
     (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
     (req, res) => usersController.updateById(req, res)
 );
@@ -57,6 +61,6 @@ usersRoute.patch(
     (req, res) => usersController.removeRole(req, res)
 );
 
-usersRoute.use(sharedMiddlewares.handleError)
+usersRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));
 
 export { usersRoute };

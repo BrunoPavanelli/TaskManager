@@ -1,6 +1,6 @@
 import { inject, injectable } from "tsyringe";
 
-import { AppError } from "../../../../shared/middlewares/shared.middleware";
+import { AppError } from "../../../../shared/middlewares/ErrorHandler.middleware";
 import { TPermissionRequest } from "../../interfaces/permissions.interfaces";
 import { PermissionsRepository } from "../../repositories/permissions.repository";
 import { Permission } from "../../entities/permissions.entity";

@@ -1,7 +1,7 @@
 import { inject, injectable } from "tsyringe";
 
 import { Role } from "../../entities/roles.entity";
-import { AppError } from "../../../../shared/middlewares/shared.middleware";
+import { AppError } from "../../../../shared/middlewares/ErrorHandler.middleware";
 import { TRoleRequest } from "../../interfaces/roles.interfaces";
 import { RolesRepository } from "../../repositories/roles.repository";
 

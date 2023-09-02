@@ -1,20 +1,24 @@
-import { Router } from "express";
+import { NextFunction, Request, Response, Router } from "express";
 
-import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
 import { deadlinesController, tasksController } from "../controllers/tasks.controller";
 import { schemas } from "../schemas";
 import { tasksMiddleware } from "../middlewares/tasks.middleware";
 import { usersMiddleware } from "../../users/middlewares/users.middleware";
+import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+
+const errorHandler = new ErrorHandler();
+const schemaValidator = new SchemaValidator();
+const permissionEnsurer = new PermissionEnsurer();
 
 const tasksRoute = Router();
 
 tasksRoute.use(
-    (req, res, next) => usersMiddleware.ensureTokenExists(req, res, next)
+    (req, res, next) => permissionEnsurer.ensureTokenExists(req, res, next)
 );
 tasksRoute.post(
     "", 
-    sharedMiddlewares.ensurePermission("CAN_CREATE_TASK"),
-    sharedMiddlewares.validateSchema(schemas.tasks.request),
+    permissionEnsurer.ensurePermission("CAN_CREATE_TASK"),
+    schemaValidator.validateSchema(schemas.tasks.request),
     (req, res) => tasksController.create(req, res)
 );
 tasksRoute.get(
@@ -28,14 +32,14 @@ tasksRoute.get(
 );
 tasksRoute.patch(
     "/:taskId",
-    sharedMiddlewares.ensurePermission("CAN_UPDATE_TASK"),
-    sharedMiddlewares.validateSchema(schemas.tasks.update),
+    permissionEnsurer.ensurePermission("CAN_UPDATE_TASK"),
+    schemaValidator.validateSchema(schemas.tasks.update),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res) => tasksController.updateById(req, res)
 );
 tasksRoute.delete(
     "/:taskId",
-    sharedMiddlewares.ensurePermission("CAN_DELETE_TASK"),
+    permissionEnsurer.ensurePermission("CAN_DELETE_TASK"),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res) => tasksController.deleteById(req, res)
 );
@@ -43,28 +47,28 @@ tasksRoute.delete(
 // Tasks Deadlines
 tasksRoute.post(
     "/deadline/:taskId",
-    sharedMiddlewares.ensurePermission("CAN_ADD_DEADLINE"),
-    sharedMiddlewares.validateSchema(schemas.tasks.deadlineRequest),
+    permissionEnsurer.ensurePermission("CAN_ADD_DEADLINE"),
+    schemaValidator.validateSchema(schemas.tasks.deadlineRequest),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTaskDontHaveAnDeadLine(req, res, next),
     (req, res) => deadlinesController.createDeadline(req, res)
 )
 tasksRoute.patch(
     "/deadline/:taskId/:deadlineId",
-    sharedMiddlewares.ensurePermission("CAN_UPDATE_DEADLINE"),
-    sharedMiddlewares.validateSchema(schemas.tasks.deadlineUpdate),
+    permissionEnsurer.ensurePermission("CAN_UPDATE_DEADLINE"),
+    schemaValidator.validateSchema(schemas.tasks.deadlineUpdate),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
     (req, res) => deadlinesController.updateDeadlineById(req, res)
 )
 tasksRoute.delete(
     "/deadline/:taskId/:deadlineId",
-    sharedMiddlewares.ensurePermission("CAN_REMOVE_DEADLINE"),
+    permissionEnsurer.ensurePermission("CAN_REMOVE_DEADLINE"),
     (req, res, next) => tasksMiddleware.ensureTasksIdExists(req, res, next),
     (req, res, next) => tasksMiddleware.ensureTasksDeadlineIdExists(req, res, next),
     (req, res) => deadlinesController.deleteDeadlineById(req, res)
 )
 
-tasksRoute.use(sharedMiddlewares.handleError)
+tasksRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));
 
 export { tasksRoute };

@@ -1,48 +1,36 @@
 import { NextFunction, Request, Response } from "express";
-import { ZodError, ZodTypeAny } from "zod";
+import { verify } from "jsonwebtoken";
 import { Repository } from "typeorm";
 
 import { AppDataSource } from "../data-source";
 import { Permission } from "../../modules/users/entities/permissions.entity";
 import { Role } from "../../modules/users/entities/roles.entity";
 
-class AppError extends Error {
-    statusCode: number;
-
-    constructor(message: string, statusCode: number) {
-        super(message),
-        this.statusCode = statusCode;
-    }
-}
-
-class SharedMiddlewares {
+class PermissionEnsurer {
     permissionRepository: Repository<Permission> = AppDataSource.getRepository(Permission);
     roleRepository: Repository<Role> = AppDataSource.getRepository(Role);
 
-    handleError(err: Error, req: Request, res: Response, next: NextFunction) {
-        if (err instanceof AppError) {
-            const errorMessage = {message: err.message};
-            return res.status(err.statusCode).json(errorMessage);
-        }
+    ensureTokenExists(req: Request, res: Response, next: NextFunction): Response | void {
+        const authorization: string | null | undefined = req.headers.authorization;
+
+        if (!authorization) return res.status(401).json({message: "Missing bearer token"})
     
-        if (err instanceof ZodError) {
-            const errorMessage = {message: err.flatten().fieldErrors};
-            return res.status(400).json(errorMessage);
-        }
+        const [_bearer, token] = authorization.split(" ");
     
-        console.log(err);
-        const errorMessage = {message: "Internal Server Error"};
-        return res.status(500).json(errorMessage);
-    };
-  
-    validateSchema (schema: ZodTypeAny) {
-        return (req: Request, res: Response, next: NextFunction): void | Response => {
-            const toValidate = req.body;
-            const validated = schema.parse(toValidate);
-            
-            req.body = validated;
-            return next();
-        };
+        verify(
+            token,
+            String(process.env.SECRET_KEY),
+            (err: any, decode: any) => {
+                if (err) return res.status(401).json({message: err.message})
+    
+                const userId: string = decode.subject;
+                const roles: Role[] = decode.roles;
+                res.locals.userId = userId;
+                res.locals.roles = roles;
+            }
+        );
+    
+        return next();
     }
 
     ensurePermission(permission: string) {
@@ -68,5 +56,4 @@ class SharedMiddlewares {
 
 }
 
-const sharedMiddlewares = new SharedMiddlewares();
-export { sharedMiddlewares, AppError };
+export { PermissionEnsurer };

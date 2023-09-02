@@ -1,17 +1,21 @@
-import { Router } from "express";
-import { sharedMiddlewares } from "../../../shared/middlewares/shared.middleware";
+import { NextFunction, Request, Response, Router } from "express";
 import { permissionsController } from "../controllers/permissions.controller";
 import { schemas } from "../schemas";
 import { permissionsMiddleware } from "../middlewares/permissions.middleware";
 import { usersMiddleware } from "../middlewares/users.middleware";
+import { ErrorHandler, PermissionEnsurer, SchemaValidator } from "../../../shared/middlewares";
+
+const errorHandler = new ErrorHandler();
+const schemaValidator = new SchemaValidator();
+const permissionEnsurer = new PermissionEnsurer();
 
 const permissionsRoute = Router();
 
-permissionsRoute.use((req, res, next) => usersMiddleware.ensureTokenExists(req, res, next));
+permissionsRoute.use((req, res, next) => permissionEnsurer.ensureTokenExists(req, res, next));
 permissionsRoute.post(
     "", 
-    sharedMiddlewares.ensurePermission("CAN_CREATE_PERMISSION"),
-    sharedMiddlewares.validateSchema(schemas.permissions.request),
+    permissionEnsurer.ensurePermission("CAN_CREATE_PERMISSION"),
+    schemaValidator.validateSchema(schemas.permissions.request),
     (req, res) => permissionsController.create(req, res)
 );
 permissionsRoute.get(
@@ -25,17 +29,17 @@ permissionsRoute.get(
 );
 permissionsRoute.patch(
     "/:id",
-    sharedMiddlewares.ensurePermission("CAN_UPDATE_PERMISSION"),
-    sharedMiddlewares.validateSchema(schemas.permissions.update),
+    permissionEnsurer.ensurePermission("CAN_UPDATE_PERMISSION"),
+    schemaValidator.validateSchema(schemas.permissions.update),
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.updateById(req, res)
 );
 permissionsRoute.delete(
     "/:id", 
-    sharedMiddlewares.ensurePermission("CAN_DELETE_PERMISSION"),
+    permissionEnsurer.ensurePermission("CAN_DELETE_PERMISSION"),
     (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
     (req, res) => permissionsController.deleteById(req, res)
 )
 
-permissionsRoute.use(sharedMiddlewares.handleError)
+permissionsRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));
 export { permissionsRoute };
