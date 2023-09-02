@@ -19,6 +19,7 @@ services:
       - POSTGRES_HOST=postgres
     depends_on:
      - postgres
+     - migrate
 
   postgres: 
     image: postgres:latest
@@ -40,7 +41,6 @@ services:
       - postgres
     depends_on:
       - postgres
-      - api
     env_file:
       - ./.env
     environment:
