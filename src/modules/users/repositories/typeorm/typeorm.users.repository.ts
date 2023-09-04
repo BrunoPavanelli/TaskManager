@@ -22,10 +22,20 @@ class TypeOrmUsersRepository implements UsersRepository {
         return await this.repository.find();
     }
 
-    async findByProperty(userProperty: string, propertyValue: string): Promise<User | null> {
-        const user: User | null = await this.repository.findOneBy({
+    async findByProperty(userProperty: string, propertyValue: string, relations: boolean=false): Promise<User | null> {
+        const user: User | null = 
+        relations 
+        ? await this.repository.findOne({
+            where: {
+                [userProperty]: propertyValue
+            },
+            relations: {
+                roles: true
+            }
+        })
+        : await this.repository.findOneBy({
             [userProperty]: propertyValue
-        });
+        })
 
         return user;
     }

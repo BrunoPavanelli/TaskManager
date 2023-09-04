@@ -22,7 +22,7 @@ usersRoute.post(
 usersRoute.use((req, res, next) => permissionEnsurer.ensureTokenExists(req, res, next));
 usersRoute.post(
     "",
-    permissionEnsurer.ensurePermission("CAN_CREATE_USER"),
+    // permissionEnsurer.ensurePermission("CAN_CREATE_USER"),
     schemaValidator.validateSchema(schemas.users.request),
     (req, res) => usersController.create(req, res)
 );
@@ -32,7 +32,6 @@ usersRoute.get(
 );
 usersRoute.get(
     "/:id", 
-    (req, res, next) => usersMiddleware.ensureUsersIdExists(req, res, next),
     (req, res) => usersController.findById(req, res)
 );
 usersRoute.patch(

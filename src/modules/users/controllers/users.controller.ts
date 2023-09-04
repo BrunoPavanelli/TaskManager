@@ -38,38 +38,39 @@ class UsersContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { user } = res.locals;
+        const { id } = req.params;
 
-        const userResponse = schemas.users.response.parse(user);
+        const userResponse = await container.resolve(usersServices.UserFindByIdService).findById(id);
         return res.json(userResponse);
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { user } = res.locals;
+        const { id } = req.params;
         const userData = req.body;
-        const userPatched = await this.usersRepository.updateById(user, userData);
 
-        const userResponse = schemas.users.response.parse(userPatched);
+        const userResponse = await container.resolve(usersServices.UsersUpdateService).update(id, userData);
         return res.json(userResponse);
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { user } = res.locals;
-        await this.usersRepository.deleteById(user);
+        const { id } = req.params;
+        await container.resolve(usersServices.UsersDeleteByIdService).deleteById(id);
 
         return res.sendStatus(204);
     }
 
     async addRole(req: Request, res: Response): Promise<Response> {
-        const { user, role } = res.locals;
-        const response = await this.usersRepository.addRole(user, role);
+        const { id } = req.params;
+        const { roleId } = req.body;
+        const response = await container.resolve(usersServices.UsersAddRoleService).addRole(id, roleId);
 
         return res.json(response);
     }
 
     async removeRole(req: Request, res: Response): Promise<Response> {
-        const { user, role } = res.locals;
-        const response = await this.usersRepository.removeRole(user, role);
+        const { id } = req.params;
+        const { roleId } = req.body;
+        const response = await container.resolve(usersServices.UsersRemoveRoleService).removeRole(id, roleId);
 
         return res.json(response);
     }
