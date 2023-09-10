@@ -1,19 +1,19 @@
-import { UsersLoginService } from "./UsersLogin.service";
-import { UsersCreateService } from "./UsersCreate.service";
-import { UsersUpdateService } from "./UsersUpdate.service";
-import { UserFindByIdService } from "./UsersFindBy.service";
-import { UsersAddRoleService } from "./UsersAddRole.service";
-import { UsersDeleteByIdService } from "./UsersDeleteById.service";
-import { UsersRemoveRoleService } from "./UsersRemoveRole.service";
+import { LoginUserService } from "./LoginUser.service";
+import { CreateUserService } from "./CreateUser.service";
+import { UpdateUserByIdService } from "./UpdateUserById.service";
+import { FindUserByIdService } from "./FindUserById.service";
+import { AddRoleToUserService } from "./AddRoleToUser.service";
+import { DeleteUserByIdService } from "./DeleteUserById.service";
+import { RemoveRoleOfUserService } from "./RemoveRoleOfUser.service";
 
 const usersServices = {
-    UsersLoginService,
-    UsersCreateService,
-    UsersUpdateService,
-    UserFindByIdService,
-    UsersAddRoleService,
-    UsersDeleteByIdService,
-    UsersRemoveRoleService,
+    LoginUserService,
+    CreateUserService,
+    UpdateUserByIdService,
+    FindUserByIdService,
+    AddRoleToUserService,
+    DeleteUserByIdService,
+    RemoveRoleOfUserService,
 };
 
 

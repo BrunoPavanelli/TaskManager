@@ -16,14 +16,32 @@ class TypeOrmRolesRepository implements RolesRepository {
         return role;
     }
 
+    async createMany(rolesData: TRoleRequest[]): Promise<Role[]> {
+        const roles: Role[] = this.repository.create(rolesData);
+        await this.repository.save(roles);
+
+        return roles;
+    }
+
+
     async findAll(): Promise<Role[]> {
         return await this.repository.find();
     }
 
-    async findByProperty(roleProperty: string, propertyValue: string): Promise<Role | null> {
-        const role: Role | null = await this.repository.findOneBy({
+    async findByProperty(roleProperty: string, propertyValue: string, relations: boolean): Promise<Role | null> {
+        const role: Role | null = 
+        relations 
+        ? await this.repository.findOne({
+            where: {
+                [roleProperty]: propertyValue
+            },
+            relations: {
+                permissions: true
+            }
+        })
+        : await this.repository.findOneBy({
             [roleProperty]: propertyValue
-        });
+        })
 
         return role;
     }
@@ -47,14 +65,14 @@ class TypeOrmRolesRepository implements RolesRepository {
         return
     }
 
-    async addPermission(role: Role, permissions: Permission[]): Promise<object> {
+    async addPermissions(role: Role, permissions: Permission[]): Promise<object> {
         role.permissions = [...role.permissions, ...permissions];
         await this.repository.save(role);
 
         return { message: "Permissions added succesfully!" };
     }
 
-    async removePermission(role: Role, permissions: Permission[]): Promise<object> {
+    async removePermissions(role: Role, permissions: Permission[]): Promise<object> {
         role.permissions = role.permissions.filter(permission => {
             const permissionFounded = permissions.find((permissionInBody: Permission) => permissionInBody.id === permission.id)
             

@@ -1,10 +1,9 @@
 import { NextFunction, Request, Response, Router } from "express";
 
 import { schemas } from "../schemas";
-import { rolesController } from "../controllers/roles.controller";
-import { rolesMiddleware } from "../middlewares/roles.middleware";
-import { permissionsMiddleware } from "../middlewares/permissions.middleware";
+import { RolesContoller } from "../controllers/roles.controller";
 import * as sharedMiddlewares from "../../../shared/middlewares";
+import { container } from "tsyringe";
 
 const errorHandler = new sharedMiddlewares.ErrorHandler();
 const schemaValidator = new sharedMiddlewares.SchemaValidator();
@@ -17,43 +16,34 @@ rolesRoute.post(
     "", 
     permissionEnsurer.ensurePermission("CAN_CREATE_ROLE"),
     schemaValidator.validateSchema(schemas.roles.request),
-    (req, res) => rolesController.create(req, res)
+    container.resolve(RolesContoller).create
 );
 rolesRoute.get(
     "", 
-    (req, res) => rolesController.findAll(req, res)
+    container.resolve(RolesContoller).findAll
 );
 rolesRoute.get(
     "/:id", 
-    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
-    (req, res) => rolesController.findById(req, res)
+    container.resolve(RolesContoller).findById
 );
 rolesRoute.patch(
     "/:id",
     permissionEnsurer.ensurePermission("CAN_UPDATE_ROLE"),
     schemaValidator.validateSchema(schemas.roles.update),
-    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
-    (req, res) => rolesController.updateById(req, res)
+    container.resolve(RolesContoller).updateById
 );
 rolesRoute.delete(
     "/:id", 
     permissionEnsurer.ensurePermission("CAN_DELETE_ROLE"),
-    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
-    (req, res) => rolesController.deleteById(req, res)
+    container.resolve(RolesContoller).deleteById
 );
 rolesRoute.post(
     "/:id/add_permission",
-    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
-    (req, res, next) => permissionsMiddleware.ensurePermissionsIdsExists(req, res, next),
-    (req, res, next) => rolesMiddleware.ensurePermissionsNotRelatedWithRole(req, res, next),
-    (req, res) => rolesController.addPermission(req, res)    
+    container.resolve(RolesContoller).addPermissions    
 );
 rolesRoute.patch(
     "/:id/remove_permission",
-    (req, res, next) => rolesMiddleware.ensureRolesIdExists(req, res, next),
-    (req, res, next) => permissionsMiddleware.ensurePermissionsIdsExists(req, res, next),
-    (req, res, next) => rolesMiddleware.ensurePermissionsNotRelatedWithRole(req, res, next),
-    (req, res) => rolesController.removePermission(req, res)    
+    container.resolve(RolesContoller).removePermissions   
 );
 
 rolesRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));

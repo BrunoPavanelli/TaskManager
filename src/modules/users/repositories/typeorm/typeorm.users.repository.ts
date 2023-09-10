@@ -18,6 +18,13 @@ class TypeOrmUsersRepository implements UsersRepository {
         return user;
     }
 
+    async createMany(usersData: TUserRequest[]): Promise<User[]> {
+        const users: User[] = this.repository.create(usersData);
+        await this.repository.save(users);
+
+        return users;
+    }
+
     async findAll(): Promise<User[]> {
         return await this.repository.find();
     }

@@ -1,8 +1,13 @@
-import { TasksCreateService } from "./tasksCreate.service";
-
+import { CreateTaskService } from "./CreateTask.service";
+import { DeleteTaskByIdService } from "./DeleteTaskById.service";
+import { FindTaskByIdService } from "./FindTaskById.service";
+import { UpdateTaskByIdService } from "./UpdateTaskById.service";
 
 const tasksServices = {
-    TasksCreateService
+    CreateTaskService,
+    FindTaskByIdService,
+    UpdateTaskByIdService,
+    DeleteTaskByIdService
 };
 
 

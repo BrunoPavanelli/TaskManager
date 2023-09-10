@@ -4,7 +4,7 @@ import { TUserRequest, TUserResponse } from "../interfaces/users.interfaces";
 import { AppError } from "../../../shared/middlewares/ErrorHandler.middleware";
 
 @injectable()
-class UsersCreateService {
+class CreateUserService {
     constructor(
         @inject("UsersRepository")
         private usersRepository: UsersRepository
@@ -13,7 +13,7 @@ class UsersCreateService {
     async userCreate(userData: TUserRequest): Promise<TUserResponse> {
         const { email } = userData;
 
-        const user = await this.usersRepository.findByProperty("email", email)
+        const user = await this.usersRepository.findByProperty("email", email, true)
         if (user) throw new AppError("Email already registered", 400);
 
         const newUser = await this.usersRepository.create(userData);
@@ -21,4 +21,4 @@ class UsersCreateService {
     }
 }
 
-export { UsersCreateService };
+export { CreateUserService };

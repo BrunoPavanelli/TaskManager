@@ -27,44 +27,43 @@ class RolesContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { role } = res.locals;
+        const roleId = req.params.id;
+        const role = await container.resolve(rolesServices.FindRoleByIdService).findById(roleId);
 
         return res.json(role);
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { role } = res.locals;
+        const roleId = req.params.id;
         const roleData = req.body;
 
-        const roleResponse = await this.rolesRepository.updateById(
-            role,
-            roleData
-        );
+        const role = await container.resolve(rolesServices.UpdateRoleByIdService).update(roleId, roleData);
 
-        return res.json(roleResponse);
+        return res.json(role);
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { role } = res.locals;
-        await this.rolesRepository.deleteById(role);
+        const roleId = req.params.id;
+        await container.resolve(rolesServices.DeleteRoleByIdService).deleteById(roleId);
 
         return res.sendStatus(204);
     }
 
-    async addPermission(req: Request, res: Response): Promise<Response> {
-        const { role, permissions } = res.locals;
-        const response = await this.rolesRepository.addPermission(role, permissions);
+    async addPermissions(req: Request, res: Response): Promise<Response> {
+        const roleId = req.params.id;
+        const permissionsIds = req.body;
+        const response = await container.resolve(rolesServices.AddPermissionToRoleSerivce).addPermissions(roleId, permissionsIds);
 
         return res.json(response);
     }
 
-    async removePermission(req: Request, res: Response): Promise<Response> {
-        const { role, permissions } = res.locals;
-        const response = await this.rolesRepository.removePermission(role, permissions);
+    async removePermissions(req: Request, res: Response): Promise<Response> {
+        const roleId = req.params.id;
+        const permissionsIds = req.body;
+        const response = await container.resolve(rolesServices.RemovePermissionOfRoleService).removePermissions(roleId, permissionsIds);
 
         return res.json(response);
     }
 }
 
-const rolesController = container.resolve(RolesContoller);
-export { rolesController };
+export { RolesContoller };

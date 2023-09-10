@@ -5,6 +5,7 @@ import { TUserRequest, TUserUpdate } from "../interfaces/users.interfaces";
 
 abstract class UsersRepository {
     abstract create(userData: TUserRequest): Promise<User>;
+    abstract createMany(usersData: TUserRequest[]): Promise<User[]>;
     abstract findAll(): Promise<User[]>;
     abstract findByProperty(permissionProperty: string, propertyValue: string, relations: boolean): Promise<User | null>;
     abstract updateById(user: User, userData: TUserUpdate): Promise<User>;

@@ -6,7 +6,7 @@ import { RolesRepository } from "../repositories/roles.repository";
 import { Role } from "../entities/roles.entity";
 
 @injectable()
-class UsersRemoveRoleService {
+class RemoveRoleOfUserService {
     constructor(
         @inject("UsersRepository")
         private usersRepository: UsersRepository,
@@ -24,7 +24,8 @@ class UsersRemoveRoleService {
 
         const role: Role | null = await this.rolesRepository.findByProperty(
             "id",
-            roleId
+            roleId,
+            true
         );
         if (!role) throw new AppError("Role not Found!", 404);
 
@@ -36,4 +37,4 @@ class UsersRemoveRoleService {
     }
 }
 
-export { UsersRemoveRoleService };
+export { RemoveRoleOfUserService };

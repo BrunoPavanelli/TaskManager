@@ -5,18 +5,18 @@ import { User } from "../entities/users.entity";
 import { AppError } from "../../../shared/middlewares/ErrorHandler.middleware";
 
 @injectable()
-class UserFindByIdService {
+class FindUserByIdService {
     constructor(
         @inject("UsersRepository")
         private usersRepository: UsersRepository
     ) {}
 
     async findById(userId: string): Promise<TUserResponse> {
-        const user: User | null = await this.usersRepository.findByProperty("id", userId)
+        const user: User | null = await this.usersRepository.findByProperty("id", userId, true)
         if (!user) throw new AppError("User not Found!", 404);
 
         return user;
     }
 }
 
-export { UserFindByIdService };
+export { FindUserByIdService };

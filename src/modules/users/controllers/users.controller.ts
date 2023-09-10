@@ -13,18 +13,16 @@ class UsersContoller {
         private usersRepository: UsersRepository
     ) {}
 
-    login(req: Request, res: Response): Response {
-        const userLoginService = new usersServices.UsersLoginService();
-        const { id, roles } = res.locals.user;
-
-        const token = userLoginService.userLogin({id, roles});
+    async login(req: Request, res: Response): Promise<Response> {
+        const userData = req.body;
+        const token = await container.resolve(usersServices.LoginUserService).userLogin(userData)
 
         return res.json(token);
     }
 
     async create(req: Request, res: Response): Promise<Response> {
         const userData = req.body;
-        const user = await container.resolve(usersServices.UsersCreateService).userCreate(userData);
+        const user = await container.resolve(usersServices.CreateUserService).userCreate(userData);
 
         const userResponse = schemas.users.response.parse(user);
         return res.status(201).json(userResponse);
@@ -40,7 +38,7 @@ class UsersContoller {
     async findById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
 
-        const userResponse = await container.resolve(usersServices.UserFindByIdService).findById(id);
+        const userResponse = await container.resolve(usersServices.FindUserByIdService).findById(id);
         return res.json(userResponse);
     }
 
@@ -48,13 +46,13 @@ class UsersContoller {
         const { id } = req.params;
         const userData = req.body;
 
-        const userResponse = await container.resolve(usersServices.UsersUpdateService).update(id, userData);
+        const userResponse = await container.resolve(usersServices.UpdateUserByIdService).update(id, userData);
         return res.json(userResponse);
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
-        await container.resolve(usersServices.UsersDeleteByIdService).deleteById(id);
+        await container.resolve(usersServices.DeleteUserByIdService).deleteById(id);
 
         return res.sendStatus(204);
     }
@@ -62,7 +60,7 @@ class UsersContoller {
     async addRole(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { roleId } = req.body;
-        const response = await container.resolve(usersServices.UsersAddRoleService).addRole(id, roleId);
+        const response = await container.resolve(usersServices.AddRoleToUserService).addRole(id, roleId);
 
         return res.json(response);
     }
@@ -70,12 +68,11 @@ class UsersContoller {
     async removeRole(req: Request, res: Response): Promise<Response> {
         const { id } = req.params;
         const { roleId } = req.body;
-        const response = await container.resolve(usersServices.UsersRemoveRoleService).removeRole(id, roleId);
+        const response = await container.resolve(usersServices.RemoveRoleOfUserService).removeRole(id, roleId);
 
         return res.json(response);
     }
 
 }
 
-const usersController = container.resolve(UsersContoller);
-export { usersController };
+export { UsersContoller };

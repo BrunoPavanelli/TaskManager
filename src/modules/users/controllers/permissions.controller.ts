@@ -13,7 +13,7 @@ class PermissionsContoller {
 
     async create(req: Request, res: Response): Promise<Response> {
         const permissionData = req.body;
-        const permission = await container.resolve(permissionsServices.PermissionsCreateService).permissionCreate(permissionData);
+        const permission = await container.resolve(permissionsServices.CreatePermissionService).permissionCreate(permissionData);
 
         return res.status(201).json(permission);
     }
@@ -25,28 +25,28 @@ class PermissionsContoller {
     }
 
     async findById(req: Request, res: Response): Promise<Response> {
-        const { permission } = res.locals;
+        const permissionId = req.params.id;
+        const permission = await container.resolve(permissionsServices.FindPermissionByIdService).findById(permissionId);
 
         return res.json(permission);
     }
 
     async updateById(req: Request, res: Response): Promise<Response> {
-        const { permission } = res.locals;
+        const permissionId = req.params.id;
         const permissionData = req.body;
 
-        const permissionResponse = await this.permissionsRepository.updateById(permission, permissionData);
+        const permissionResponse = await container.resolve(permissionsServices.UpdatePermissionByIdService).update(permissionId, permissionData);
 
         return res.json(permissionResponse);
     }
 
     async deleteById(req: Request, res: Response): Promise<Response> {
-        const { permission } = res.locals;
-        await this.permissionsRepository.deleteById(permission);
+        const permissionId = req.params.id;
+        await container.resolve(permissionsServices.DeletePermissionByIdService).deleteById(permissionId);
 
         return res.sendStatus(204);
     }
 
 }
 
-const permissionsController = container.resolve(PermissionsContoller);
-export { permissionsController };
+export { PermissionsContoller };

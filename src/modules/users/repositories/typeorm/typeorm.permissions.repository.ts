@@ -15,6 +15,13 @@ class TypeOrmPermissionsRepository implements PermissionsRepository {
         return permission;
     }
 
+    async createMany(permissionsData: TPermissionRequest[]): Promise<Permission[]> {
+        const permissions: Permission[] = this.repository.create(permissionsData);
+        await this.repository.save(permissions);
+
+        return permissions;
+    }
+
     async findAll(): Promise<Permission[]> {
         return await this.repository.find();
     }

@@ -1,25 +1,36 @@
 import { injectable, inject } from "tsyringe";
 import { UsersRepository } from "../repositories/users.repository";
+import { TUserResponse, TUserUpdate } from "../interfaces/users.interfaces";
 import { AppError } from "../../../shared/middlewares/ErrorHandler.middleware";
 import { User } from "../entities/users.entity";
+import { schemas } from "../schemas";
 
 @injectable()
-class UsersDeleteByIdService {
+class UpdateUserByIdService {
     constructor(
         @inject("UsersRepository")
         private usersRepository: UsersRepository
     ) {}
 
-    async deleteById(userId: string): Promise<void> {
+    async update(
+        userId: string,
+        userData: TUserUpdate
+    ): Promise<TUserResponse | void> {
         const user: User | null = await this.usersRepository.findByProperty(
             "id",
             userId,
-            true
+            false
         );
         if (!user) throw new AppError("User not Found!", 404);
 
-        await this.usersRepository.deleteById(user);
+        const userPatched = await this.usersRepository.updateById(
+            user,
+            userData
+        );
+        const userResponse = schemas.users.response.parse(userPatched);
+
+        return userResponse;
     }
 }
 
-export { UsersDeleteByIdService };
+export { UpdateUserByIdService };

@@ -83,3 +83,7 @@ const rolesArray = [
         description: "role that gives all permissions all tasks resources"
     }
 ];
+
+const mock = { makeUsersArray, permissionsArray, rolesArray }
+
+export { mock };

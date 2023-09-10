@@ -6,7 +6,7 @@ import { PermissionsRepository } from "../../repositories/permissions.repository
 import { Permission } from "../../entities/permissions.entity";
 
 @injectable()
-class PermissionsCreateService {
+class CreatePermissionService {
     constructor(
         @inject("PermissionsRepository")
         private permissionsRepository: PermissionsRepository
@@ -23,4 +23,4 @@ class PermissionsCreateService {
     }
 }
 
-export { PermissionsCreateService };
+export { CreatePermissionService };

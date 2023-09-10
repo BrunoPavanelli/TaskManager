@@ -1,4 +1,4 @@
-import { injectable, inject } from "tsyringe";
+ import { injectable, inject } from "tsyringe";
 import { UsersRepository } from "../repositories/users.repository";
 import { AppError } from "../../../shared/middlewares/ErrorHandler.middleware";
 import { User } from "../entities/users.entity";
@@ -6,7 +6,7 @@ import { RolesRepository } from "../repositories/roles.repository";
 import { Role } from "../entities/roles.entity";
 
 @injectable()
-class UsersAddRoleService {
+class AddRoleToUserService {
     constructor(
         @inject("UsersRepository")
         private usersRepository: UsersRepository,
@@ -24,7 +24,8 @@ class UsersAddRoleService {
 
         const role: Role | null = await this.rolesRepository.findByProperty(
             "id",
-            roleId
+            roleId,
+            true
         );
         if (!role) throw new AppError("Role not Found!", 404);
 
@@ -36,4 +37,4 @@ class UsersAddRoleService {
     }
 }
 
-export { UsersAddRoleService };
+export { AddRoleToUserService };

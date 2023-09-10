@@ -1,8 +1,9 @@
 import { NextFunction, Request, Response, Router } from "express";
-import { permissionsController } from "../controllers/permissions.controller";
+
 import { schemas } from "../schemas";
-import { permissionsMiddleware } from "../middlewares/permissions.middleware";
 import * as sharedMiddlewares from "../../../shared/middlewares";
+import { container } from "tsyringe";
+import { PermissionsContoller } from "../controllers/permissions.controller";
 
 const errorHandler = new sharedMiddlewares.ErrorHandler();
 const schemaValidator = new sharedMiddlewares.SchemaValidator();
@@ -15,29 +16,26 @@ permissionsRoute.post(
     "", 
     permissionEnsurer.ensurePermission("CAN_CREATE_PERMISSION"),
     schemaValidator.validateSchema(schemas.permissions.request),
-    (req, res) => permissionsController.create(req, res)
+    container.resolve(PermissionsContoller).create
 );
 permissionsRoute.get(
     "", 
-    (req, res) => permissionsController.findAll(req, res)
+    container.resolve(PermissionsContoller).findAll
 );
 permissionsRoute.get(
     "/:id", 
-    (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
-    (req, res) => permissionsController.findById(req, res)
+    container.resolve(PermissionsContoller).findById
 );
 permissionsRoute.patch(
     "/:id",
     permissionEnsurer.ensurePermission("CAN_UPDATE_PERMISSION"),
     schemaValidator.validateSchema(schemas.permissions.update),
-    (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
-    (req, res) => permissionsController.updateById(req, res)
+    container.resolve(PermissionsContoller).updateById
 );
 permissionsRoute.delete(
     "/:id", 
     permissionEnsurer.ensurePermission("CAN_DELETE_PERMISSION"),
-    (req, res, next) => permissionsMiddleware.ensurePermissionsIdExists(req, res, next),
-    (req, res) => permissionsController.deleteById(req, res)
+    container.resolve(PermissionsContoller).deleteById
 )
 
 permissionsRoute.use((err: Error, req: Request, res: Response, next: NextFunction) => errorHandler.handleError(err, req, res, next));

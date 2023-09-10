@@ -6,7 +6,7 @@ import { TTaskRequest } from "../interfaces/tasks.interfaces";
 import { TasksRepository } from "../repositories/tasks.repository";
 
 @injectable()
-class TasksCreateService {
+class CreateTaskService {
     constructor(
         @inject("TasksRepository")
         private tasksRepository: TasksRepository
@@ -15,7 +15,7 @@ class TasksCreateService {
     async taskCreate(taskData: TTaskRequest, userId: string): Promise<Task> {
         const { name } = taskData;
 
-        const task: Task | null = await this.tasksRepository.findByProperty("name", name);
+        const task: Task | null = await this.tasksRepository.findByProperty("name", name, false);
 
         if (task) throw new AppError("Task already registered", 400);
 
@@ -24,5 +24,5 @@ class TasksCreateService {
     }
 }
 
-export { TasksCreateService };
+export { CreateTaskService };
 
