@@ -2,7 +2,7 @@ import "reflect-metadata";
 import "express-async-errors";
 import express, { json } from 'express';
 
-import "./containers";
+import "./containers"
 
 import { usersRoute } from '../modules/users/routes/users.routes';
 import { tasksRoute } from '../modules/tasks/routes/tasks.routes';

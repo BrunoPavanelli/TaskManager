@@ -5,7 +5,7 @@ import { PermissionsRepository } from "../repositories/permissions.repository";
 import { permissionsServices } from "../services/permissions";
 
 @injectable()
-class PermissionsContoller {
+class PermissionsContoller { 
     constructor(
         @inject("PermissionsRepository")
         private permissionsRepository: PermissionsRepository

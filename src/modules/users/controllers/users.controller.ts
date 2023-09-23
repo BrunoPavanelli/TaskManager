@@ -5,6 +5,7 @@ import { UsersRepository } from "../repositories/users.repository";
 import { usersServices } from "../services";
 import { schemas } from "../schemas";
 
+import "../containers";
 
 @injectable()
 class UsersContoller {

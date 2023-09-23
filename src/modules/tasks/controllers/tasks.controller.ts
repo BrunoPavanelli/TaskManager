@@ -3,6 +3,8 @@ import { container, inject, injectable } from "tsyringe";
 import { TasksRepository } from "../repositories/tasks.repository";
 import { tasksServices } from "../services";
 
+import "../containers"
+
 @injectable()
 class TasksContoller {
     constructor(
